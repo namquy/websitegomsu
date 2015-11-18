@@ -1,0 +1,6 @@
+name: FiveStar Purchase Product
+description: This module run correctly with FiveStar Ecommerce theme
+package: FiveStar Ecommerce
+type: module
+version: VERSION
+core: '8.x'

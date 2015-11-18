@@ -1,0 +1,77 @@
+<?php
+
+function purchase_schema() {
+  $schema['product_user_relationship'] = array(
+    'description' => 'Includes relationship between users and products',
+    'fields' => array(
+      'rid' => array(
+        'description' => 'The primary key',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'product_id' => array(
+        'description' => 'The foreign key refers to nid of product node',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'user_id' => array(
+        'description' => 'The foreign key refers to uid',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'image_url' => array(
+          'description' => 'The url of product image',
+          'type' => 'text',
+      ),
+      'quantity' => array(
+        'description' => 'The quantity of product that user purchased',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'price' => array(
+        'description' => 'The price of purchasing product',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'total_price' => array(
+          'description' => 'The total price of purchasing product',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'default' => 0,
+      ),
+      'date' => array(
+          'description' => 'The date that user purchased product on',
+          'type' => 'int',
+          'unsigned' => TRUE,
+      ),
+      'status' => array(
+          'description' => 'The status of product',
+          'type' => 'int', // 1 purchased, 2 completed, 3 cancelled
+          'unsigned' => TRUE,
+      ),
+      'note' => array(
+          'description' => 'The note',
+          'type' => 'text',
+          'length' => 255,
+      ),
+    ),
+    'primary key' => array('rid'),
+    'foreign keys' => array(
+      'fk_relationship_product' => array(
+        'table' => 'node',
+        'columns' => array('product_id' => 'nid'),
+      ),
+      'fk_relationship_user' => array(
+        'table' => 'users',
+        'columns' => array('user_id' => 'uid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}

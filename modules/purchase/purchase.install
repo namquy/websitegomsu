@@ -1,6 +1,54 @@
 <?php
 
 function purchase_schema() {
+
+    $schema['invoice'] = array(
+        'description' => 'The invoice for a list of shipping products',
+        'fields' => array(
+            'id' => array(
+                'description' => 'The primary key',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'user_id' => array(
+                'description' => 'The foreign key refers to uid',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'total_quantity' => array(
+                'description' => 'The total quantity of products that user purchased',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'default' => 0,
+            ),
+            'total_price' => array(
+                'description' => 'The total price of purchasing products',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'default' => 0,
+            ),
+            'date' => array(
+                'description' => 'The date that user purchased product on',
+                'type' => 'int',
+                'unsigned' => TRUE,
+            ),
+            'note' => array(
+                'description' => 'The note',
+                'type' => 'text',
+                'length' => 255,
+            ),
+        ),
+        'primary key' => array('id'),
+        'foreign keys' => array(
+            'fk_invoice_user' => array(
+                'table' => 'users',
+                'columns' => array('user_id' => 'uid'),
+            ),
+        ),
+    );
+
   $schema['product_user_relationship'] = array(
     'description' => 'Includes relationship between users and products',
     'fields' => array(
@@ -21,10 +69,6 @@ function purchase_schema() {
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'image_url' => array(
-          'description' => 'The url of product image',
-          'type' => 'text',
       ),
       'quantity' => array(
         'description' => 'The quantity of product that user purchased',
@@ -59,6 +103,12 @@ function purchase_schema() {
           'type' => 'text',
           'length' => 255,
       ),
+      'invoice_id' => array(
+          'description' => 'The foreign key refers to invoice id',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => FALSE,
+      ),
     ),
     'primary key' => array('rid'),
     'foreign keys' => array(
@@ -70,6 +120,10 @@ function purchase_schema() {
         'table' => 'users',
         'columns' => array('user_id' => 'uid'),
       ),
+        'fk_relationship_invoice' => array(
+            'table' => 'invoice',
+            'columns' => array('invoice_id' => 'id'),
+        ),
     ),
   );
 

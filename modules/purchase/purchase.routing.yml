@@ -5,3 +5,24 @@ purchase.buy_now:
     _title: 'Buy now'
   requirements:
     _permission: 'access content'
+purchase.change_status:
+  path: '/change-status/{relationship_id}/{status_id}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\PurchaseController::updateStatus'
+    _title: 'Update status'
+  requirements:
+    _permission: 'access content'
+purchase.create_invoice:
+  path: '/invoice/create/{user_id}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\InvoiceController::createInvoice'
+    _title: 'Create invoice'
+  requirements:
+    _permission: 'access content'
+purchase.detail_invoice:
+  path: '/invoice/detail/{invoice_id}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\InvoiceController::detailInvoice'
+    _title: 'Invoice detail'
+  requirements:
+    _permission: 'access content'

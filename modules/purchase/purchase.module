@@ -6,13 +6,19 @@ function purchase_form_node_facebook_product_form_alter(&$form, \Drupal\Core\For
     $form['actions']['unpublish']['#submit'][] = '_insert_purchased_product';
 }
 
+function purchase_form_node_facebook_product_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    $form['actions']['submit']['#submit'][] = '_update_purchased_product';
+    $form['actions']['publish']['#submit'][] = '_update_purchased_product';
+    $form['actions']['unpublish']['#submit'][] = '_update_purchased_product';
+}
+
 function _insert_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
     //$nids = db_select('node', 'e')->fields('e', array('nid'))->orderBy('nid', 'DESC')->execute()->fetchAll();
     //$product_id = $nids[0]->nid;
     $product_id = $form_state->getValue('nid');
     $quantity = $form_state->getValue('field_quantity')[0]['value'];
     $price = $form_state->getValue('field_price')[0]['value'];
-    $image_links = $form_state->getValue('field_image_links')[0]['uri'];
+    //$image_links = $form_state->getValue('field_image_links')[0]['uri'];
     $customer_id = $form_state->getValue('field_customer')[0]['target_id'];
     $note = $form_state->getValue('body')[0]['value'];
     $status_id = $form_state->getValue('field_status')[0]['target_id'];
@@ -21,12 +27,14 @@ function _insert_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
     $customer = \Drupal\user\Entity\User::load($customer_id);
 
     // update user
-    if (!isset($customer->field_total_money->value)) {
-        $customer->field_total_money->value = $total_price;
-    } else {
-        $customer->field_total_money->value += $total_price;
+    if ($status_id != 3) {
+        if (!isset($customer->field_total_money->value)) {
+            $customer->field_total_money->value = $total_price;
+        } else {
+            $customer->field_total_money->value += $total_price;
+        }
+        $user_storage->save($customer);
     }
-    $user_storage->save($customer);
 
     // insert new row
     $fields = array(
@@ -35,11 +43,62 @@ function _insert_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
         'quantity' => $quantity,
         'price' => $price,
         'total_price' => $total_price,
-        'image_url' => $image_links,
+        //'image_url' => $image_links,
         'status' => $status_id,
         'note' => $note,
-        'date' => time());
+        'date' => time()
+    );
     db_insert('product_user_relationship')->fields($fields)->execute();
+
+    $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput('/node/add/facebook_product'));
+}
+
+function _update_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    //$nids = db_select('node', 'e')->fields('e', array('nid'))->orderBy('nid', 'DESC')->execute()->fetchAll();
+    //$product_id = $nids[0]->nid;
+    $product_id = $form_state->getValue('nid');
+    $quantity = $form_state->getValue('field_quantity')[0]['value'];
+    $price = $form_state->getValue('field_price')[0]['value'];
+    //$image_links = $form_state->getValue('field_image_links')[0]['uri'];
+    $customer_id = $form_state->getValue('field_customer')[0]['target_id'];
+    $note = $form_state->getValue('body')[0]['value'];
+    $status_id = $form_state->getValue('field_status')[0]['target_id'];
+    $total_price = $price * $quantity;
+    $user_storage = \Drupal::entityManager()->getStorage('user');
+    $customer = \Drupal\user\Entity\User::load($customer_id);
+
+    $query = db_select('product_user_relationship', 'e')
+        ->condition('product_id', $product_id)
+        ->fields('e', array('status', 'total_price'))
+        ->execute()->fetchAll();
+    $old_product = $query[0];
+    $old_total_price = $old_product->total_price;
+    $old_status_id = $old_product->status;
+
+    // update user
+    if ($old_status_id != 3) {
+        if (isset($customer->field_total_money->value)) {
+            $customer->field_total_money->value -= $old_total_price;
+        }
+    }
+    if ($status_id != 3) {
+        $customer->field_total_money->value += $total_price;
+    }
+    $user_storage->save($customer);
+
+    // insert new row
+    $fields = array(
+        'quantity' => $quantity,
+        'price' => $price,
+        'total_price' => $total_price,
+        //'image_url' => $image_links,
+        'status' => $status_id,
+        'note' => $note,
+    );
+    db_update('product_user_relationship')
+        ->condition('product_id', $product_id)
+        ->fields($fields)
+        ->execute();
 
     $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput('/node/add/facebook_product'));
 }

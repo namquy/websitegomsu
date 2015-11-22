@@ -5,7 +5,8 @@
 jQuery(function () {
 
     onBuyNowButtonClick();
-    onPurchasedButtonClick('.purchased-products-list');
+    onChangeButtonClick('.purchased-products-list');
+    onInvoiceDetailButtonClick('.invoices-list');
 
     function onBuyNowButtonClick() {
         jQuery('.button-buy-now').click(function () {
@@ -30,7 +31,7 @@ jQuery(function () {
         });
     }
 
-    function onPurchasedButtonClick(view_selector) {
+    function onChangeButtonClick(view_selector) {
         jQuery(document).on('click', view_selector + ' table tbody tr td:last-child a', function () {
             var self = jQuery(this);
             var relationship_id = self.attr('rel-item');
@@ -46,6 +47,38 @@ jQuery(function () {
 
     function changeStatusPurchasingProduct(relationship_id, status_id, view_selector) {
         url = 'change-status/' + relationship_id + '/' + status_id;
+        jQuery.post(url, function(data) {
+            if (data.success) {
+                alert(data.message);
+            } else { // error
+                alert(data.message);
+            }
+        });
+
+        jQuery(view_selector).triggerHandler('RefreshView');
+    }
+
+    function onInvoiceDetailButtonClick(view_selector) {
+        jQuery(document).on('click', view_selector + ' table tbody tr td:last-child a', function () {
+            var self = jQuery(this);
+            var invoice_id = self.attr('rel-item');
+            var classes = self.attr('class');
+
+            if (classes.indexOf('start') >= 0) { // start
+                if (confirm(Drupal.t('Do you really want to change status?'))) {
+                    startInvoice(invoice_id, view_selector);
+                }
+            } else { // detail
+                var base_path = jQuery('#base-path').attr('href');
+                window.location.href = base_path + '/invoice/detail/' + invoice_id;
+            }
+
+            return false;
+        });
+    }
+
+    function startInvoice(invoice_id, view_selector) {
+        url = 'invoice/start/' + invoice_id;
         jQuery.post(url, function(data) {
             if (data.success) {
                 alert(data.message);

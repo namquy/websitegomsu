@@ -19,6 +19,13 @@ purchase.create_invoice:
     _title: 'Create invoice'
   requirements:
     _permission: 'access content'
+purchase.start_invoice:
+  path: '/invoice/start/{invoice_id}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\InvoiceController::startInvoice'
+    _title: 'Start invoice'
+  requirements:
+    _permission: 'access content'
 purchase.detail_invoice:
   path: '/invoice/detail/{invoice_id}'
   defaults:

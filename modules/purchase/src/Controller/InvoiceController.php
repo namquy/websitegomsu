@@ -75,6 +75,49 @@ class InvoiceController extends ControllerBase {
         return new JsonResponse($response);
     }
 
+    public function startInvoice($invoice_id = NULL) {
+        $response = array();
+
+        if (isset($invoice_id) && $invoice_id > 0) {
+            // update status of invoice
+            $fields = array(
+                'status' => 5,
+            );
+            $num_updated = db_update('invoice')
+                ->condition('id', $invoice_id)
+                ->fields($fields)
+                ->execute();
+            if ($num_updated > 0) {
+                // update status of products
+                $fields = array(
+                    'status' => 2, // completed status
+                );
+                $num_updated = db_update('product_user_relationship')
+                    ->condition('invoice_id', $invoice_id)
+                    ->fields($fields)
+                    ->execute();
+                if ($num_updated > 0) {
+                    $response = array(
+                        'success' => true,
+                        'message' => $this->t('Start invoice successfully.')
+                    );
+                } else {
+                    $response = array(
+                        'success' => false,
+                        'message' => $this->t('Invoice is started but it have no product.')
+                    );
+                }
+            } else {
+                $response = array(
+                    'success' => false,
+                    'message' => $this->t('Invoice is not existed.')
+                );
+            }
+        }
+
+        return new JsonResponse($response);
+    }
+
     public function detailInvoice($invoice_id = NULL) {
         $response = array();
 

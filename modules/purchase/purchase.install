@@ -29,6 +29,14 @@ function purchase_schema() {
                 'unsigned' => TRUE,
                 'default' => 0,
             ),
+            // 4: created, 5: finished
+            'status' => array(
+                'description' => 'The status of invoice',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'default' => 4,
+            ),
             'date' => array(
                 'description' => 'The date that user purchased product on',
                 'type' => 'int',

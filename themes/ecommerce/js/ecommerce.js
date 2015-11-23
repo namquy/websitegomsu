@@ -4,9 +4,15 @@
 
 jQuery(function () {
 
+    var base_path = jQuery('#base-path').attr('href');
+
     onBuyNowButtonClick();
     onChangeButtonClick('.purchased-products-list');
     onInvoiceDetailButtonClick('.invoices-list');
+    //onViewAllLoad('.invoices-list');
+    //onViewAllLoad('.purchased-products-list');
+    onViewAllClick('.invoices-list');
+    onViewAllClick('.purchased-products-list');
 
     function onBuyNowButtonClick() {
         jQuery('.button-buy-now').click(function () {
@@ -69,7 +75,6 @@ jQuery(function () {
                     startInvoice(invoice_id, view_selector);
                 }
             } else { // detail
-                var base_path = jQuery('#base-path').attr('href');
                 window.location.href = base_path + '/invoice/detail/' + invoice_id;
             }
 
@@ -88,6 +93,23 @@ jQuery(function () {
         });
 
         jQuery(view_selector).triggerHandler('RefreshView');
+    }
+
+    /*
+    function onViewAllLoad(view_selector) {
+        jQuery(document).on('load', view_selector + ' .view-header .view-all', function () {
+            var self = jQuery(this);
+            self.attr('href', base_path + self.attr('path'));
+        });
+    }
+    */
+
+    function onViewAllClick(view_selector) {
+        jQuery(document).on('click', view_selector + ' .view-header .view-all', function () {
+            var self = jQuery(this);
+            window.location.href = base_path + self.attr('path');
+            return false;
+        });
     }
 
     function getFullElementHtml(element) {

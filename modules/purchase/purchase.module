@@ -1,5 +1,39 @@
 <?php
 
+// alter user form
+function purchase_form_user_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $form['actions']['submit']['#submit'][] = '_update_user';
+    $form['field_last_payment_money']['widget'][0]['value']['#default_value'] = 0;
+}
+
+function _update_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $user_id = $form_state->getValue('uid');
+    $last_payment_money = $form_state->getValue('field_last_payment_money')[0]['value'];
+
+    if (isset($last_payment_money) && $last_payment_money > 0) {
+        $user_storage = \Drupal::entityManager()->getStorage('user');
+        $user = $user_storage->load($user_id);
+        $payment_money = $user->field_payment_money->value;
+        $debt = $user->field_debt->value;
+        $total_money = $user->field_total_money->value;
+
+        // update payment money
+        if (isset($payment_money)) {
+            $payment_money += $last_payment_money;
+        } else {
+            $payment_money = $last_payment_money;
+        }
+        // update debt money
+        $debt = $total_money - $payment_money;
+
+        // assign to fields and save to db
+        $user->field_payment_money->value = $payment_money;
+        $user->field_debt->value = $debt;
+        $user_storage->save($user);
+    }
+}
+
+// alter facebook product node form
 function purchase_form_node_facebook_product_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
     $form['actions']['submit']['#submit'][] = '_insert_purchased_product';
     $form['actions']['publish']['#submit'][] = '_insert_purchased_product';
@@ -101,4 +135,37 @@ function _update_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
         ->execute();
 
     $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput('/node/add/facebook_product'));
+}
+
+/**
+ * Implements hook_block_access().
+ */
+function purchase_block_access(\Drupal\block\Entity\Block $block, $operation, \Drupal\Core\Session\AccountInterface $account) {
+    if ($block->getPluginId() == 'system_menu_block:customer-menu' && $operation == 'view') {
+        $roles = $account->getRoles();
+        if (in_array('administrator', $roles)) {
+            return \Drupal\Core\Access\AccessResult::forbidden();
+        }
+    }
+
+    return \Drupal\Core\Access\AccessResult::neutral();
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function purchase_user_login($account) {
+    global $base_path;
+
+    $roles = $account->getRoles();
+    if (in_array('administrator', $roles)) {
+        $response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "products");
+        $response->send();
+    } else if (in_array('authenticated', $roles)) {
+        $response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "user/general");
+        $response->send();
+    } else {
+        //$response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "user/login");
+    }
+    return;
 }

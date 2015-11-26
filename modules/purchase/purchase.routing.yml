@@ -12,6 +12,7 @@ purchase.change_status:
     _title: 'Update status'
   requirements:
     _permission: 'access content'
+
 purchase.create_invoice:
   path: '/invoice/create/{user_id}'
   defaults:
@@ -33,3 +34,18 @@ purchase.detail_invoice:
     _title: 'Invoice detail'
   requirements:
     _permission: 'access content'
+
+purchase.create_product:
+  path: '/product/create'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\ProductController::createProduct'
+    _title: 'Create product'
+  requirements:
+    _permission: 'access content'
+purchase.create_multiple_products:
+  path: '/product/create-multiple'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\ProductController::createMultipleProducts'
+    _title: 'Create products'
+  requirements:
+    _permission: 'administer create facebook products'

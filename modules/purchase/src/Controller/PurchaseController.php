@@ -81,49 +81,6 @@ class PurchaseController extends ControllerBase {
         return new JsonResponse($response);
     }
 
-    /*
-    public function cancel($relationship_id = NULL) {
-        $response = array();
-
-        if (isset($relationship_id) && $relationship_id > 0) {
-            $num_updated = db_update('product_user_relationship')
-                ->condition('rid', $relationship_id)
-                ->fields(array(
-                    'status' => 3,
-                ))
-                ->execute();
-
-            if ($num_updated > 0) {
-                // get customer entity
-                $query = db_select('product_user_relationship', 'e')
-                    ->condition('rid', $relationship_id)
-                    ->fields('e', array('user_id', 'total_price'))
-                    ->execute()->fetchAll();
-                $customer_id = $query[0]->user_id;
-                $total_price = $query[0]->total_price;
-                $user_storage = \Drupal::entityManager()->getStorage('user');
-                $customer = \Drupal\user\Entity\User::load($customer_id);
-
-                // update total price of customer
-                $customer->field_total_money->value -= $total_price;
-                $user_storage->save($customer);
-
-                $response = array(
-                    'success' => true,
-                    'message' => $this->t('Cancel successfully.')
-                );
-            } else {
-                $response = array(
-                    'success' => false,
-                    'message' => $this->t('Cancel unsuccessfully.')
-                );
-            }
-        }
-
-        return new JsonResponse($response);
-    }
-    */
-
     public function updateStatus($relationship_id = NULL, $status_id = NULL) {
         $response = array();
 

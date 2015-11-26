@@ -14,6 +14,29 @@ jQuery(function () {
     onViewAllClick('.invoices-list');
     onViewAllClick('.purchased-products-list');
 
+
+    //onTestCreateProduct();
+
+    function onTestCreateProduct() {
+        var url;
+        var data;
+
+        url = 'product/create';
+        data = {
+            'title' : 'name of product',
+            'image_link' : 'http://localhost:8080/gomsu/en/node/add/facebook_product',
+            'body' : 'this is body',
+            'customer_id' : 1,
+            'price' : 10000,
+            'quantity' : 1,
+            'status_id' : 1,
+        };
+
+        jQuery.post(url, JSON.stringify(data), function (data) {
+            alert(data.message);
+        }, 'json');
+    }
+
     function onBuyNowButtonClick() {
         jQuery('.button-buy-now').click(function () {
             var self = jQuery(this);

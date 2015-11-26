@@ -1,0 +1,3 @@
+administer create facebook products:
+  title: 'Create Facebook products'
+  restrict access: true

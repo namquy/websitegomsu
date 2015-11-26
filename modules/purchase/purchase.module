@@ -169,3 +169,12 @@ function purchase_user_login($account) {
     }
     return;
 }
+
+function purchase_theme() {
+    return array(
+        'create_multiple_products' => array(
+            'variables' => array(),
+            'template' => 'create-multiple-products',
+        ),
+    );
+}

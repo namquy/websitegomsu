@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends ControllerBase {
 
-    public function createProduct(Request $request) {
+    public function createProducts(Request $request) {
         $response = array();
         $data = array();
         $content = $request->getContent();
@@ -23,9 +23,19 @@ class ProductController extends ControllerBase {
         if (!empty($content)) {
             $data = json_decode($content, TRUE);
 
-            // create node
-            $data['id'] = $this->_createFacebookProduct($data);
-            $this->_insertPurchasedProduct($data);
+            for ($i = 0; $i < count($data); ++$i) {
+                // pre create node
+                if (!isset($data[$i]['title'])) {
+                    $data[$i]['title'] = 'Facebook product';
+                }
+                if (!isset($data[$i]['status_id'])) {
+                    $data[$i]['status_id'] = 1;
+                }
+
+                // create node
+                $data[$i]['id'] = $this->_createFacebookProduct($data[$i]);
+                $this->_insertPurchasedProduct($data[$i]);
+            }
 
             $response = array(
                 'success' => true,
@@ -94,6 +104,7 @@ class ProductController extends ControllerBase {
             } else {
                 $customer->field_total_money->value += $total_price;
             }
+            $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
             $user_storage->save($customer);
         }
 

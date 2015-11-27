@@ -1,20 +1,45 @@
 <div class="products-container">
+    <div class="header">
+        {% trans %}<input type="button" class="btn-add-row" value="Add row" />{% endtrans %}
+        {% trans %}<input type="button" class="btn-save" value="Save" />{% endtrans %}
+    </div>
     <table>
         <thead>
             <tr>
-                <th>Image Link</th>
-                <th>Customer</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Note</th>
+                <th>{% trans %}Image Link{% endtrans %}</th>
+                <th>{% trans %}Customer{% endtrans %}</th>
+                <th>{% trans %}Quantity{% endtrans %}</th>
+                <th>{% trans %}Price{% endtrans %}</th>
+                <th>{% trans %}Note{% endtrans %}</th>
+                <th>{% trans %}Action{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr style="display: none;" class="origin-row">
                 <td>
-                    <input />
+                    {% trans %}<input class="image-link" placeholder="Image Link" />{% endtrans %}
+                </td>
+                <td>
+                    {% trans %}<input class="customer-autocomplete" placeholder="Customer" />{% endtrans %}
+                    {% trans %}<input type="hidden" class="customer" />{% endtrans %}
+                </td>
+                <td>
+                    {% trans %}<input class="quantity" placeholder="Quantity" />{% endtrans %}
+                </td>
+                <td>
+                    {% trans %}<input class="price" placeholder="Price" />{% endtrans %}
+                </td>
+                <td>
+                    {% trans %}<input class="note" placeholder="Note" />{% endtrans %}
+                </td>
+                <td>
+                    {% trans %}<input type="button" class="btn-remove-row" value="Remove" />{% endtrans %}
                 </td>
             </tr>
         </tbody>
     </table>
+    <div class="footer">
+        {% trans %}<input type="button" class="btn-add-row" value="Add row" />{% endtrans %}
+        {% trans %}<input type="button" class="btn-save" value="Save" />{% endtrans %}
+    </div>
 </div>

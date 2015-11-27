@@ -70,6 +70,8 @@ corescript:
       - core/drupal
       - core/jquery.once
       - core/jquery.intrinsic
+      - core/jquery.ui
+      - core/jquery.ui.autocomplete
 
 messages:
   version: VERSION

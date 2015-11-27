@@ -38,8 +38,8 @@ purchase.detail_invoice:
 purchase.create_product:
   path: '/product/create'
   defaults:
-    _controller: '\Drupal\purchase\Controller\ProductController::createProduct'
-    _title: 'Create product'
+    _controller: '\Drupal\purchase\Controller\ProductController::createProducts'
+    _title: 'Create products'
   requirements:
     _permission: 'access content'
 purchase.create_multiple_products:
@@ -49,3 +49,10 @@ purchase.create_multiple_products:
     _title: 'Create products'
   requirements:
     _permission: 'administer create facebook products'
+
+purchase.autocomplete:
+  path: '/purchase/user/autocomplete/{query}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\UltilsController::userAutocomplete'
+  requirements:
+    _permission: 'access content'

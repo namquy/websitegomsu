@@ -34,6 +34,7 @@ class PurchaseController extends ControllerBase {
                     } else {
                         $curUser->field_total_money->value += $total_price;
                     }
+                    $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
                     $user_storage->save($curUser);
 
                     // insert new row
@@ -122,6 +123,7 @@ class PurchaseController extends ControllerBase {
                 } else if ($old_status_id == 3) {
                     $customer->field_total_money->value += $total_price;
                 }
+                $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
                 $user_storage->save($customer);
 
                 $response = array(

@@ -13,29 +13,7 @@ jQuery(function () {
     //onViewAllLoad('.purchased-products-list');
     onViewAllClick('.invoices-list');
     onViewAllClick('.purchased-products-list');
-
-
-    //onTestCreateProduct();
-
-    function onTestCreateProduct() {
-        var url;
-        var data;
-
-        url = 'product/create';
-        data = {
-            'title' : 'name of product',
-            'image_link' : 'http://localhost:8080/gomsu/en/node/add/facebook_product',
-            'body' : 'this is body',
-            'customer_id' : 1,
-            'price' : 10000,
-            'quantity' : 1,
-            'status_id' : 1,
-        };
-
-        jQuery.post(url, JSON.stringify(data), function (data) {
-            alert(data.message);
-        }, 'json');
-    }
+    initCreateMultipleProductsView();
 
     function onBuyNowButtonClick() {
         jQuery('.button-buy-now').click(function () {
@@ -48,7 +26,7 @@ jQuery(function () {
             var quantity = parent.find('.quantity').val();
             var url;
 
-            url = 'buy-now/' + product_id + '/' + price + '/' + quantity;
+            url = base_path + 'buy-now/' + product_id + '/' + price + '/' + quantity;
             jQuery.post(url, function(data) {
                 if (data.success) {
                     alert(data.message);
@@ -75,7 +53,7 @@ jQuery(function () {
     }
 
     function changeStatusPurchasingProduct(relationship_id, status_id, view_selector) {
-        url = 'change-status/' + relationship_id + '/' + status_id;
+        url = base_path + 'change-status/' + relationship_id + '/' + status_id;
         jQuery.post(url, function(data) {
             if (data.success) {
                 alert(data.message);
@@ -98,7 +76,7 @@ jQuery(function () {
                     startInvoice(invoice_id, view_selector);
                 }
             } else { // detail
-                window.location.href = base_path + '/invoice/detail/' + invoice_id;
+                window.location.href = base_path + 'invoice/detail/' + invoice_id;
             }
 
             return false;
@@ -106,7 +84,7 @@ jQuery(function () {
     }
 
     function startInvoice(invoice_id, view_selector) {
-        url = 'invoice/start/' + invoice_id;
+        url = base_path + 'invoice/start/' + invoice_id;
         jQuery.post(url, function(data) {
             if (data.success) {
                 alert(data.message);
@@ -135,7 +113,89 @@ jQuery(function () {
         });
     }
 
+    function initCreateMultipleProductsView() {
+        var container = jQuery('.products-container');
+        var table_body = jQuery('.products-container table tbody');
+        var origin_row = jQuery('.products-container table tbody .origin-row');
+
+        jQuery(document).on('keydown.autocomplete', '.products-container table tbody .customer-autocomplete', function () {
+            var self = jQuery(this);
+
+            self.autocomplete({
+                source: function(request, response ) {
+                    jQuery.ajax({
+                        url: base_path + 'purchase/user/autocomplete/' + request.term,
+                        data: 'json',
+                        success: function(data) {
+                            //response(data);
+                            response(jQuery.map(data, function (item) {
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                };
+                            }));
+                        },
+                    });
+                },
+                select: function(event, ui) {
+                    jQuery('.customer-autocomplete').val(ui.item.label);
+                    jQuery('.customer').val(ui.item.value);
+                    return false;
+                },
+                focus: function(event, ui) {
+                    //jQuery('.customer-autocomplete').val(ui.item.label);
+                    return false;
+                },
+            });
+        });
+
+        // add a row on init
+        table_body.append(origin_row.clone().css('display', '').removeClass('origin-row'));
+
+        // on add new row buton click
+        container.find('.btn-add-row').click(function () {
+            var cloned_row = origin_row.clone();
+            cloned_row.css('display', '');
+            cloned_row.removeClass('origin-row');
+            table_body.append(cloned_row);
+        });
+
+        // on remove row button click
+        jQuery(document).on('click', '.products-container table tbody .btn-remove-row', function () {
+            var self = jQuery(this);
+            var row = self.parent().parent();
+            row.remove();
+        });
+
+        // on save button click
+        container.find('.btn-save').click(function () {
+            var data = [];
+            var url;
+
+            url = base_path + 'product/create';
+            table_body.children().each(function (i, e) {
+                if (i > 0) {
+                    var self = jQuery(this);
+                    var tmpData = {
+                        /*'title' : 'Facebook Product',*/
+                        'image_link' : self.find('.image-link:first').val(),
+                        'body' : self.find('.note').val(),
+                        'customer_id' : self.find('.customer').val(),
+                        'price' : self.find('.price').val(),
+                        'quantity' : self.find('.quantity').val(),
+                        /*'status_id' : 1,*/
+                    };
+                    data.push(tmpData);
+                }
+            });
+
+            jQuery.post(url, JSON.stringify(data), function (data) {
+                alert(data.message);
+            }, 'json');
+        });
+    }
+
     function getFullElementHtml(element) {
-        return $('<div>').append(element.clone()).html();
+        return jQuery('<div>').append(element.clone()).html();
     }
 });

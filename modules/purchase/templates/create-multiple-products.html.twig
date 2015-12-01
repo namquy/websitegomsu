@@ -1,4 +1,5 @@
 <div class="products-container">
+    <div class="error-message" style="display: none; border: 2px solid red; color: red; padding: 10px;"></div>
     <div class="header">
         {% trans %}<input type="button" class="btn-add-row" value="Add row" />{% endtrans %}
         {% trans %}<input type="button" class="btn-save" value="Save" />{% endtrans %}
@@ -24,10 +25,10 @@
                     {% trans %}<input type="hidden" class="customer" />{% endtrans %}
                 </td>
                 <td>
-                    {% trans %}<input class="quantity" placeholder="Quantity" />{% endtrans %}
+                    {% trans %}<input type="number" min="1" class="quantity" value="1" placeholder="Quantity" />{% endtrans %}
                 </td>
                 <td>
-                    {% trans %}<input class="price" placeholder="Price" />{% endtrans %}
+                    {% trans %}<input type="number" min="0" class="price" placeholder="Price" />{% endtrans %}
                 </td>
                 <td>
                     {% trans %}<input class="note" placeholder="Note" />{% endtrans %}

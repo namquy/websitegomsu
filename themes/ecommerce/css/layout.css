@@ -28,3 +28,7 @@
   margin-top: 20px;
   margin-bottom: 40px;
 }
+
+.invalid {
+  border: 2px solid red;
+}

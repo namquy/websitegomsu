@@ -38,12 +38,27 @@ function purchase_form_node_facebook_product_form_alter(&$form, \Drupal\Core\For
     $form['actions']['submit']['#submit'][] = '_insert_purchased_product';
     $form['actions']['publish']['#submit'][] = '_insert_purchased_product';
     $form['actions']['unpublish']['#submit'][] = '_insert_purchased_product';
+
+    array_unshift($form['actions']['submit']['#submit'], '_pre_submit_form');
+    array_unshift($form['actions']['publish']['#submit'], '_pre_submit_form');
+    array_unshift($form['actions']['unpublish']['#submit'], '_pre_submit_form');
 }
 
 function purchase_form_node_facebook_product_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
     $form['actions']['submit']['#submit'][] = '_update_purchased_product';
     $form['actions']['publish']['#submit'][] = '_update_purchased_product';
     $form['actions']['unpublish']['#submit'][] = '_update_purchased_product';
+
+    array_unshift($form['actions']['submit']['#submit'], '_pre_submit_form');
+    array_unshift($form['actions']['publish']['#submit'], '_pre_submit_form');
+    array_unshift($form['actions']['unpublish']['#submit'], '_pre_submit_form');
+}
+
+function _pre_submit_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $image_link = $form_state->getValue('field_image_links')[0]['uri'];
+    $image_link = _getRealFacebookImageLink($image_link);
+    //$form_state->setValue('field_image_links', $image_link);
+    $form_state->getValue('field_image_links')[0]['uri'] = $image_link;
 }
 
 function _insert_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
@@ -184,4 +199,89 @@ function purchase_theme() {
             'template' => 'create-multiple-products',
         ),
     );
+}
+
+function _getRealFacebookImageLink($url) {
+    if (strpos($url, 'www.facebook.com')) {
+        $arr = explode('/', $url);
+        $photo_id = $arr[6];
+        $url = 'http://graph.facebook.com/' . $photo_id . '/picture';
+        return get_final_url($url);
+    }
+    return $url;
+}
+
+/**
+ * get_redirect_url()
+ * Gets the address that the provided URL redirects to,
+ * or FALSE if there's no redirect.
+ *
+ * @param string $url
+ * @return string
+ */
+function get_redirect_url($url){
+    $redirect_url = null;
+
+    $url_parts = @parse_url($url);
+    if (!$url_parts) return false;
+    if (!isset($url_parts['host'])) return false; //can't process relative URLs
+    if (!isset($url_parts['path'])) $url_parts['path'] = '/';
+
+    $sock = fsockopen($url_parts['host'], (isset($url_parts['port']) ? (int)$url_parts['port'] : 80), $errno, $errstr, 30);
+    if (!$sock) return false;
+
+    $request = "HEAD " . $url_parts['path'] . (isset($url_parts['query']) ? '?'.$url_parts['query'] : '') . " HTTP/1.1\r\n";
+    $request .= 'Host: ' . $url_parts['host'] . "\r\n";
+    $request .= "Connection: Close\r\n\r\n";
+    fwrite($sock, $request);
+    $response = '';
+    while(!feof($sock)) $response .= fread($sock, 8192);
+    fclose($sock);
+
+    if (preg_match('/^Location: (.+?)$/m', $response, $matches)){
+        if ( substr($matches[1], 0, 1) == "/" )
+            return $url_parts['scheme'] . "://" . $url_parts['host'] . trim($matches[1]);
+        else
+            return trim($matches[1]);
+
+    } else {
+        return false;
+    }
+
+}
+
+/**
+ * get_all_redirects()
+ * Follows and collects all redirects, in order, for the given URL.
+ *
+ * @param string $url
+ * @return array
+ */
+function get_all_redirects($url){
+    $redirects = array();
+    while ($newurl = get_redirect_url($url)){
+        if (in_array($newurl, $redirects)){
+            break;
+        }
+        $redirects[] = $newurl;
+        $url = $newurl;
+    }
+    return $redirects;
+}
+
+/**
+ * get_final_url()
+ * Gets the address that the URL ultimately leads to.
+ * Returns $url itself if it isn't a redirect.
+ *
+ * @param string $url
+ * @return string
+ */
+function get_final_url($url){
+    $redirects = get_all_redirects($url);
+    if (count($redirects)>0){
+        return array_pop($redirects);
+    } else {
+        return $url;
+    }
 }

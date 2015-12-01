@@ -12,7 +12,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UltilsController extends ControllerBase {
-    function userAutocomplete($query = NULL) {
+    public function userAutocomplete($query = NULL) {
 
         $query = db_select('users_field_data', 'e')
             ->fields('e', array('uid', 'name'))
@@ -29,5 +29,12 @@ class UltilsController extends ControllerBase {
         }
 
         return new JsonResponse($result);
+    }
+
+    public function userGeneral() {
+        $build = array(
+            '#markup' => '',
+        );
+        return $build;
     }
 }

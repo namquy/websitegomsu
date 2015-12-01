@@ -11,8 +11,9 @@ jQuery(function () {
     onInvoiceDetailButtonClick('.invoices-list');
     //onViewAllLoad('.invoices-list');
     //onViewAllLoad('.purchased-products-list');
-    onViewAllClick('.invoices-list');
-    onViewAllClick('.purchased-products-list');
+    //onViewAllClick('.invoices-list');
+    //onViewAllClick('.purchased-products-list');
+    onUserCreateInvoiceButtonClick('.users-list');
     initCreateMultipleProductsView();
 
     function onBuyNowButtonClick() {
@@ -43,6 +44,10 @@ jQuery(function () {
             var self = jQuery(this);
             var relationship_id = self.attr('rel-item');
             var status_id = self.attr('rel-status');
+
+            if (!status_id) {
+                status_id = 3; // cancel
+            }
 
             if (confirm(Drupal.t('Do you really want to change status?'))) {
                 changeStatusPurchasingProduct(relationship_id, status_id, view_selector);
@@ -113,10 +118,31 @@ jQuery(function () {
         });
     }
 
+    function onUserCreateInvoiceButtonClick(view_selector) {
+        jQuery(document).on('click', view_selector + ' table tbody tr td:last-child .btn-create-invoice', function () {
+            if (confirm(Drupal.t('Do you really want to create invoice for the user?'))) {
+                var self = jQuery(this);
+                var url = base_path + 'invoice/create/' + self.attr('user-id');
+
+                jQuery.post(url, function(data) {
+                    if (data.success) {
+                        alert(data.message);
+                    } else { // error
+                        alert(data.message);
+                    }
+                });
+            }
+        });
+    }
+
     function initCreateMultipleProductsView() {
         var container = jQuery('.products-container');
         var table_body = jQuery('.products-container table tbody');
         var origin_row = jQuery('.products-container table tbody .origin-row');
+        var error_message = jQuery('.products-container .error-message');
+        var error_element;
+
+        error_message.hide();
 
         jQuery(document).on('keydown.autocomplete', '.products-container table tbody .customer-autocomplete', function () {
             var self = jQuery(this);
@@ -138,14 +164,20 @@ jQuery(function () {
                     });
                 },
                 select: function(event, ui) {
-                    jQuery('.customer-autocomplete').val(ui.item.label);
-                    jQuery('.customer').val(ui.item.value);
+                    self.val(ui.item.label);
+                    self.next().val(ui.item.value);
                     return false;
                 },
                 focus: function(event, ui) {
                     //jQuery('.customer-autocomplete').val(ui.item.label);
                     return false;
                 },
+                autoFocus: true,
+            }).blur(function () {
+                var keyEvent = jQuery.Event('keydown');
+                keyEvent.keyCode = jQuery.ui.keyCode.ENTER;
+                jQuery(this).trigger(keyEvent);
+                return false;
             });
         });
 
@@ -171,27 +203,75 @@ jQuery(function () {
         container.find('.btn-save').click(function () {
             var data = [];
             var url;
+            var canPost = true;
+
+            error_message.empty();
+            error_message.hide();
+            if (error_element) {
+                error_element.removeClass('invalid');
+            }
 
             url = base_path + 'product/create';
             table_body.children().each(function (i, e) {
                 if (i > 0) {
                     var self = jQuery(this);
+                    var image_link = self.find('.image-link:first');
+                    var note = self.find('.note');
+                    var customer_id = self.find('.customer');
+                    var price = self.find('.price');
+                    var quantity = self.find('.quantity');
+
+                    if (image_link.val().length == 0) {
+                        error_message.text(Drupal.t('Image link must be not empty.'));
+                        error_message.show();
+                        image_link.addClass('invalid');
+                        error_element = image_link;
+                        canPost = false;
+                        return false;
+                    } else if (customer_id.val() <= 0) {
+                        error_message.text(Drupal.t('Customer must be chosen.'));
+                        error_message.show();
+                        customer_id.prev().addClass('invalid');
+                        error_element = customer_id.prev();
+                        canPost = false;
+                        return false;
+                    } else if (quantity.val() <= 0) {
+                        error_message.text(Drupal.t('Quantity must be positive.'));
+                        error_message.show();
+                        quantity.addClass('invalid');
+                        error_element = quantity;
+                        canPost = false;
+                        return false;
+                    } else if (price.val() <= 0) {
+                        error_message.text(Drupal.t('Price must be positive.'));
+                        error_message.show();
+                        price.addClass('invalid');
+                        error_element = price;
+                        canPost = false;
+                        return false;
+                    }
+
                     var tmpData = {
                         /*'title' : 'Facebook Product',*/
-                        'image_link' : self.find('.image-link:first').val(),
-                        'body' : self.find('.note').val(),
-                        'customer_id' : self.find('.customer').val(),
-                        'price' : self.find('.price').val(),
-                        'quantity' : self.find('.quantity').val(),
+                        'image_link' : image_link.val(),
+                        'body' : note.val(),
+                        'customer_id' : customer_id.val(),
+                        'price' : price.val(),
+                        'quantity' : quantity.val(),
                         /*'status_id' : 1,*/
                     };
                     data.push(tmpData);
                 }
             });
 
-            jQuery.post(url, JSON.stringify(data), function (data) {
-                alert(data.message);
-            }, 'json');
+            if (canPost) {
+                if (confirm(Drupal.t('Do you really want to save?'))) {
+                    jQuery.post(url, JSON.stringify(data), function (data) {
+                        alert(data.message);
+                        window.location.href = base_path + 'products';
+                    }, 'json');
+                }
+            }
         });
     }
 

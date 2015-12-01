@@ -56,3 +56,21 @@ purchase.autocomplete:
     _controller: '\Drupal\purchase\Controller\UltilsController::userAutocomplete'
   requirements:
     _permission: 'access content'
+
+purchase.user_general_page:
+  path: '/user/general'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\UltilsController::userGeneral'
+    _title: 'User general'
+  requirements:
+    _permission: 'access content'
+
+
+
+purchase.fb_test:
+  path: '/fb/test'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\ProductController::fbtest'
+    _title: 'Create products'
+  requirements:
+    _permission: 'access content'

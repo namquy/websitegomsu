@@ -110,16 +110,39 @@ class PurchaseController extends ControllerBase {
                 // get customer entity
                 $query = db_select('product_user_relationship', 'e')
                     ->condition('rid', $relationship_id)
-                    ->fields('e', array('user_id', 'total_price'))
+                    ->fields('e', array('user_id', 'quantity', 'total_price', 'invoice_id'))
                     ->execute()->fetchAll();
                 $customer_id = $query[0]->user_id;
                 $total_price = $query[0]->total_price;
+                $quantity = $query[0]->quantity;
+                $invoice_id = $query[0]->invoice_id;
                 $user_storage = \Drupal::entityManager()->getStorage('user');
                 $customer = \Drupal\user\Entity\User::load($customer_id);
 
                 // update total price of customer
                 if ($status_id == 3) {
                     $customer->field_total_money->value -= $total_price;
+
+                    // substract money in invoice (if has)
+                    if (isset($invoice_id)) {
+                        $query = db_select('invoice', 'e')
+                            ->condition('id', $invoice_id)
+                            ->fields('e', array('total_quantity', 'total_price'))
+                            ->execute()
+                            ->fetchAll();
+                        $total_invoice_quantity = $query[0]->total_quantity;
+                        $total_invoice_price = $query[0]->total_price;
+
+                        $total_invoice_quantity -= $quantity;
+                        $total_invoice_price -= $total_price;
+                        db_update('invoice')
+                            ->condition('id', $invoice_id)
+                            ->fields(array(
+                                'total_quantity' => $total_invoice_quantity,
+                                'total_price' => $total_invoice_price,
+                            ))
+                            ->execute();
+                    }
                 } else if ($old_status_id == 3) {
                     $customer->field_total_money->value += $total_price;
                 }

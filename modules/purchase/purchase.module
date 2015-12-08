@@ -10,23 +10,37 @@ function purchase_form_user_register_form_alter(&$form, \Drupal\Core\Form\FormSt
     //dsm($form);
     if (\Drupal::currentUser()->isAnonymous()) {
         $form['field_last_payment_money']['#attributes']['class'][] = 'hidden';
-        //$form['user_picture']['#type'] = 'hidden';
     }
+    $form['actions']['submit']['#submit'][] = '_insert_user';
+}
+
+function _insert_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $user_id = $form_state->getValue('uid');
+    $user_storage = \Drupal::entityManager()->getStorage('user');
+    $user = $user_storage->load($user_id);
+    $user->langcode->value = 'en';
+    $user->field_email->value = $user->init->value;
+    $user_storage->save($user);
 }
 
 // alter user form
 function purchase_form_user_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
     $form['actions']['submit']['#submit'][] = '_update_user';
     $form['field_last_payment_money']['widget'][0]['value']['#default_value'] = 0;
+    if (!in_array('administrator', \Drupal::currentUser()->getRoles())) {
+        $form['field_last_payment_money']['#attributes']['class'][] = 'hidden';
+    }
 }
 
 function _update_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
     $user_id = $form_state->getValue('uid');
     $last_payment_money = $form_state->getValue('field_last_payment_money')[0]['value'];
+    $user_storage = \Drupal::entityManager()->getStorage('user');
+    $user = $user_storage->load($user_id);
+
+    $user->field_email->value = $user->mail->value;
 
     if (isset($last_payment_money) && $last_payment_money > 0) {
-        $user_storage = \Drupal::entityManager()->getStorage('user');
-        $user = $user_storage->load($user_id);
         $payment_money = $user->field_payment_money->value;
         $debt = $user->field_debt->value;
         $total_money = $user->field_total_money->value;
@@ -44,8 +58,8 @@ function _update_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) 
         $user->field_payment_money->value = $payment_money;
         $user->field_debt->value = $debt;
         $user->field_payment_date->value = REQUEST_TIME;
-        $user_storage->save($user);
     }
+    $user_storage->save($user);
 }
 
 // alter facebook product node form
@@ -199,7 +213,7 @@ function purchase_user_login($account) {
         $response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "products");
         $response->send();
     } else if (in_array('authenticated', $roles)) {
-        $response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "user/general");
+        $response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "user-detail/general");
         $response->send();
     } else {
         //$response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "user/login");

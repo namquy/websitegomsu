@@ -146,6 +146,11 @@ form label {
 table .views-field {
     text-align: center;
 }
+.views-field-field-debt,
+.field--name-field-debt,
+.purchased-products-list .view-header .views-field.views-field-total-price {
+    color: orangered;
+}
 table .views-field-total-price,
 table .views-field-field-last-payment-money,
 table .views-field-field-payment-money,
@@ -206,12 +211,13 @@ li.pager__item {
 .purchased-products-list .view-header .view-content .views-field .views-label,
 article.profile .field .field__label,
 article.profile .form-item h4 {
-    width: 15%;
+    width: 20%;
     display: inline-block;
     font-weight: bold;
     padding: 10px 0px;
 }
-.users-list .view-header .view-content .views-field .field-content {
+.users-list .view-header .view-content .views-field .field-content,
+.user-block .view-content .views-field .field-content {
     display: inline-block;
 }
 article.profile .field .field__item {
@@ -228,6 +234,18 @@ article.profile .form-item h4 {
 .link.tableresponsive-toggle {
     margin-top: 5px;
     margin-bottom: 10px;
+}
+.error-message {
+    display: none;
+    border: 2px solid red;
+    color: red;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: #FFF4E8;
+}
+.products-container.create-multiple-products .btn-add-row,
+.products-container.create-multiple-products .btn-save {
+    margin: 10px 0px;
 }
 /* end common */
 

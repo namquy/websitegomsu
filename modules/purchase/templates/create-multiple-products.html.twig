@@ -1,8 +1,8 @@
-<div class="products-container">
-    <div class="error-message" style="display: none; border: 2px solid red; color: red; padding: 10px;"></div>
+<div class="products-container create-multiple-products">
+    <div class="error-message"></div>
     <div class="header">
-        {% trans %}<input type="button" class="btn-add-row" value="Add row" />{% endtrans %}
-        {% trans %}<input type="button" class="btn-save" value="Save" />{% endtrans %}
+        <input type="button" class="btn-add-row" value="{% trans %}Add row{% endtrans %}" />
+        <input type="button" class="btn-save" value="{% trans %}Save{% endtrans %}" />
     </div>
     <table>
         <thead>
@@ -18,29 +18,29 @@
         <tbody>
             <tr style="display: none;" class="origin-row">
                 <td>
-                    {% trans %}<input type="text" class="image-link" placeholder="Image Link" />{% endtrans %}
+                    <input type="text" class="image-link" placeholder="{% trans %}Image Link{% endtrans %}" />
                 </td>
                 <td>
-                    {% trans %}<input type="text" class="customer-autocomplete" placeholder="Customer" />{% endtrans %}
-                    {% trans %}<input type="hidden" class="customer" />{% endtrans %}
+                    <input type="text" class="customer-autocomplete" placeholder="{% trans %}Customer{% endtrans %}" />
+                    <input type="hidden" class="customer" />
                 </td>
                 <td>
-                    {% trans %}<input type="text" type="number" min="1" class="quantity" value="1" placeholder="Quantity" />{% endtrans %}
+                    <input type="text" type="number" min="1" class="quantity" value="1" placeholder="{% trans %}Quantity{% endtrans %}" />
                 </td>
                 <td>
-                    {% trans %}<input type="text" type="number" min="0" class="price" placeholder="Price" />{% endtrans %}
+                    <input type="text" type="number" min="0" class="price" placeholder="{% trans %}Price{% endtrans %}" />
                 </td>
                 <td>
-                    {% trans %}<input type="text" class="note" placeholder="Note" />{% endtrans %}
+                    <input type="text" class="note" placeholder="{% trans %}Note{% endtrans %}" />
                 </td>
                 <td>
-                    {% trans %}<input type="button" class="btn-remove-row" value="Remove" />{% endtrans %}
+                    <input type="button" class="btn-remove-row" value="{% trans %}Remove{% endtrans %}" />
                 </td>
             </tr>
         </tbody>
     </table>
     <div class="footer">
-        {% trans %}<input type="button" class="btn-add-row" value="Add row" />{% endtrans %}
-        {% trans %}<input type="button" class="btn-save" value="Save" />{% endtrans %}
+        <input type="button" class="btn-add-row" value="{% trans %}Add row{% endtrans %}" />
+        <input type="button" class="btn-save" value="{% trans %}Save{% endtrans %}" />
     </div>
 </div>

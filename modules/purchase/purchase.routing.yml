@@ -58,7 +58,7 @@ purchase.autocomplete:
     _permission: 'access content'
 
 purchase.user_general_page:
-  path: '/user/general'
+  path: '/user-detail/general'
   defaults:
     _controller: '\Drupal\purchase\Controller\UltilsController::userGeneral'
     _title: 'User general'

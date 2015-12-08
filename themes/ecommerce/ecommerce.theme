@@ -35,6 +35,9 @@ function ecommerce_preprocess_html(&$variables) {
 
 }
 
+function ecommerce_preprocess_page(&$variables) {
+}
+
 /**
  * Implements hook_preprocess_HOOK() for page templates.
  */

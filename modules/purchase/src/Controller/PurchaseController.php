@@ -34,7 +34,7 @@ class PurchaseController extends ControllerBase {
                     } else {
                         $curUser->field_total_money->value += $total_price;
                     }
-                    $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
+                    $curUser->field_debt->value = $curUser->field_total_money->value - $curUser->field_payment_money->value;
                     $user_storage->save($curUser);
 
                     // insert new row

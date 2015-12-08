@@ -18,20 +18,20 @@
         <tbody>
             <tr style="display: none;" class="origin-row">
                 <td>
-                    {% trans %}<input class="image-link" placeholder="Image Link" />{% endtrans %}
+                    {% trans %}<input type="text" class="image-link" placeholder="Image Link" />{% endtrans %}
                 </td>
                 <td>
-                    {% trans %}<input class="customer-autocomplete" placeholder="Customer" />{% endtrans %}
+                    {% trans %}<input type="text" class="customer-autocomplete" placeholder="Customer" />{% endtrans %}
                     {% trans %}<input type="hidden" class="customer" />{% endtrans %}
                 </td>
                 <td>
-                    {% trans %}<input type="number" min="1" class="quantity" value="1" placeholder="Quantity" />{% endtrans %}
+                    {% trans %}<input type="text" type="number" min="1" class="quantity" value="1" placeholder="Quantity" />{% endtrans %}
                 </td>
                 <td>
-                    {% trans %}<input type="number" min="0" class="price" placeholder="Price" />{% endtrans %}
+                    {% trans %}<input type="text" type="number" min="0" class="price" placeholder="Price" />{% endtrans %}
                 </td>
                 <td>
-                    {% trans %}<input class="note" placeholder="Note" />{% endtrans %}
+                    {% trans %}<input type="text" class="note" placeholder="Note" />{% endtrans %}
                 </td>
                 <td>
                     {% trans %}<input type="button" class="btn-remove-row" value="Remove" />{% endtrans %}

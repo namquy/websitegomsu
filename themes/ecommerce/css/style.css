@@ -1,0 +1,332 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    background-color: #e9eaed;
+    font-size: 14px;
+    max-width: 1200px;
+    margin: auto;
+}
+ul {
+    padding: 0px;
+}
+li {
+    margin: 0px;
+    padding: 0px !important;
+}
+label {
+    font-weight: bold;
+}
+input[type="submit"],
+input[type="button"] {
+    padding: 10px 20px;
+    background-color: #3a5795;
+    color: white;
+    border: none;
+}
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="email"] {
+    height: 30px;
+}
+ul.menu {
+    margin: 0px;
+}
+a {
+    text-decoration: none;
+    color: #3b5998;
+}
+a:visited {
+    color: #3b5998;
+}
+h1, h2, h3, h4, h5, h6 {
+    padding: 0px;
+    margin: 0px;
+}
+table {
+    width: 100%;
+}
+th, tr {
+    height: 0px;
+}
+table, tr, th, td {
+    border: 1px solid #efefef;
+}
+th, td {
+    padding: 8px 10px;
+}
+th {
+    background-color: #efefef;
+}
+form label {
+    display: block;
+}
+
+
+
+
+/* common */
+#block-ecommerce-branding {
+    padding: 10px 0px;
+}
+#block-ecommerce-branding img {
+    width: 80px;
+    height: 80px;
+}
+.site-branding .site-branding__text {
+    display: inline-block;
+    font-size: 40px;
+    margin-left: 20px;
+    vertical-align: top;
+    line-height: 80px;
+}
+.page-title {
+    padding: 10px 0px;
+    margin-bottom: 10px;
+    background-color: #3a5795;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+}
+.menu .menu-item {
+    display: inline-block;
+}
+.region-secondary-menu {
+    float: right;
+}
+.region-secondary-menu .menu .menu-item {
+    display: inline-block;
+}
+.region-secondary-menu .menu .menu-item {
+    margin-right: 10px;
+}
+.region-secondary-menu .menu .menu-item a:hover {
+    background-color: #efefef;
+}
+.region-primary-menu {
+    margin-top: 40px;
+}
+.region-primary-menu .menu {
+    padding: 15px 0px;
+    background-color: white;
+}
+.region-primary-menu .menu li {
+    margin: 0px;
+    padding: 0px;
+}
+.region-primary-menu .menu > li {
+    display: inline-block;
+    width: auto;
+}
+.region-primary-menu .menu li a {
+    padding: 15px 20px;
+}
+.region-primary-menu .menu li a:hover {
+    background-color: #e1e2e3;
+}
+.region-primary-menu .menu li a.is-active {
+    background-color: #3a5795;
+    color: white;
+}
+#block-ecommerce-content .content > div,
+#block-ecommerce-content .content > article,
+#block-ecommerce-content .content > form,
+.views-element-container {
+    background-color: white;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+}
+.block.block-views h2 {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #EFEFEF;
+}
+table .views-field {
+    text-align: center;
+}
+table .views-field-total-price,
+table .views-field-field-last-payment-money,
+table .views-field-field-payment-money,
+table .views-field-field-debt,
+table .views-field-field-total-money {
+    text-align: right !important;
+}
+ul.tabs {
+    margin: 0px;
+}
+ul.tabs > li {
+    margin: 0px;
+}
+ul.tabs > li a {
+    padding: 15px 20px;
+}
+ul.tabs > li.is-active a {
+    background-color: white;
+}
+#content .block-menu .menu {
+    background-color: #e1e2e3;
+    padding: 15px 0px;
+}
+#content .block-menu .menu li a {
+    padding: 15px 20px;
+}
+#content .block-menu .menu li a:hover {
+    background-color: white;
+}
+li.pager__item {
+    padding: 0px;
+}
+.pager__item a {
+    padding: 5px 10px;
+    background-color: #e1e2e3;
+    color: black;
+}
+.pager__item a:hover {
+    color: black;
+}
+.pager__item.is-active a {
+    background-color: #3a5795;
+    color: white;
+}
+.pager__item--next,
+.pager__item--first,
+.pager__item--previous {
+    margin-right: 5px;
+}
+.views-field.views-field-nothing a {
+    padding: 0px 10px;
+}
+.products-container table tr td input[type="text"] {
+    width: 100%;
+}
+.user-block .view-content .views-field .views-label,
+.users-list .view-header .view-content .views-field .views-label,
+.purchased-products-list .view-header .view-content .views-field .views-label,
+article.profile .field .field__label,
+article.profile .form-item h4 {
+    width: 15%;
+    display: inline-block;
+    font-weight: bold;
+    padding: 10px 0px;
+}
+.users-list .view-header .view-content .views-field .field-content {
+    display: inline-block;
+}
+article.profile .field .field__item {
+    display: inline-block;
+}
+article.profile .form-item {
+    margin: 0px;
+}
+article.profile .form-item h4 {
+    display: inline-block;
+    font-weight: bold;
+    padding: 10px 0px;
+}
+.link.tableresponsive-toggle {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+/* end common */
+
+
+/* temp */
+.region-highlighted {
+    display: none;
+}
+
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+    .views-field-field-image-links img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    body {
+        font-size: 12px;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="email"] {
+        width: 100%;
+    }
+    th, td {
+        padding: 10px 2px;
+    }
+
+    .site-branding .site-branding__text {
+        font-size: 30px;
+    }
+    .page-title {
+        padding: 10px 0px;
+        margin-bottom: 5px;
+        color: white;
+        text-align: center;
+        font-size: 20px;
+    }
+    .form-item,
+    .form-actions {
+        margin: 5px auto;
+    }
+    .user-block .view-content .views-field .views-label,
+    article.profile .field .field__label {
+        padding: 8px 0px;
+    }
+    .views-element-container,
+    article.profile {
+        padding: 5px;
+    }
+    .user-block .view-content .views-field .views-label,
+    .purchased-products-list .view-header .view-content .views-field .views-label,
+    article.profile .field .field__label,
+    article.profile .form-item h4 {
+        width: 20%;
+    }
+    #content .block-menu .menu li a {
+        padding: 0px;
+    }
+    #content .block-menu .menu .menu-item {
+        margin: 8px 20px;
+    }
+    .responsive-enabled .priority-medium,
+    .responsive-enabled .priority-low {
+        display: none;
+    }
+    .views-field-field-image-links img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+    .site-branding .site-branding__text {
+        font-size: 20px;
+    }
+    .user-block .view-content .views-field .views-label,
+    .purchased-products-list .view-header .view-content .views-field .views-label,
+    article.profile .field .field__label,
+    article.profile .form-item h4 {
+        width: 30%;
+    }
+    .views-field-field-image-links img {
+        width: 100px;
+        height: 100px;
+    }
+}

@@ -57,7 +57,7 @@ function _update_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) 
         // assign to fields and save to db
         $user->field_payment_money->value = $payment_money;
         $user->field_debt->value = $debt;
-        $user->field_payment_date->value = REQUEST_TIME;
+        $user->field_last_payment_date->value = REQUEST_TIME;
     }
     $user_storage->save($user);
 }

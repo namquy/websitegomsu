@@ -151,6 +151,10 @@ table .views-field {
 .purchased-products-list .view-header .views-field.views-field-total-price {
     color: orangered;
 }
+.views-field-field-debt .field-content {
+    font-size: 30px;
+    font-weight: bold;
+}
 table .views-field-total-price,
 table .views-field-field-last-payment-money,
 table .views-field-field-payment-money,

@@ -20,6 +20,7 @@ corescript:
       - core/jquery.intrinsic
       - core/jquery.ui
       - core/jquery.ui.autocomplete
+      - core/jquery.ui.datepicker
 
 messages:
   version: VERSION

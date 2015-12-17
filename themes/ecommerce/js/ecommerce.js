@@ -6,6 +6,8 @@ jQuery(function () {
 
     var base_path = jQuery('#base-path').attr('href');
 
+    initDatepicker('.views-exposed-form .form-item-date-from input');
+    initDatepicker('.views-exposed-form .form-item-date-to input', true);
     onBuyNowButtonClick();
     onChangeButtonClick('.purchased-products-list');
     onInvoiceDetailButtonClick('.invoices-list');
@@ -271,6 +273,34 @@ jQuery(function () {
                         window.location.href = base_path + 'products';
                     }, 'json');
                 }
+            }
+        });
+    }
+
+    function initDatepicker(selector, isEndDay) {
+        jQuery(document).on('focus', selector, function () {
+            var self = jQuery(this);
+            if (!self.data('datepicker')) {
+                self.datepicker({
+                    onSelect: function (datetext) {
+                        if (isEndDay) {
+                            if (self.parent().find('.fake-input-item').length == 0) {
+                                var fakeInput = self.clone();
+                                fakeInput.attr('class', 'fake-input-item');
+                                fakeInput.attr('id', '');
+                                fakeInput.attr('name', '');
+                                fakeInput.attr('data-drupal-selector', '');
+                                self.parent().append(fakeInput);
+                                self.hide();
+                            }
+
+                            var date = new Date(datetext);
+                            date.setHours(24);
+                            datetext = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+                            self.val(datetext);
+                        }
+                    },
+                });
             }
         });
     }

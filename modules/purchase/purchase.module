@@ -6,6 +6,13 @@ function purchase_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_
 }
 */
 
+/**
+ * Implements hook_form_alter().
+ */
+function purchase_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    //dsm($form_id);
+}
+
 function purchase_form_user_register_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
     //dsm($form);
     if (\Drupal::currentUser()->isAnonymous()) {
@@ -130,7 +137,7 @@ function _insert_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
         //'image_url' => $image_links,
         'status' => $status_id,
         'note' => $note,
-        'date' => time()
+        'date' => REQUEST_TIME
     );
     db_insert('product_user_relationship')->fields($fields)->execute();
 

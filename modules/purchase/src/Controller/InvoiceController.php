@@ -88,6 +88,25 @@ class InvoiceController extends ControllerBase {
                 ->fields($fields)
                 ->execute();
             if ($num_updated > 0) {
+                // update total payment money of customer
+                \Drupal::logger('purchase')->info('START INVOICE: update total payment money of customer');
+                $query = db_select('invoice', 'e')
+                    ->condition('id', $invoice_id)
+                    ->fields('e', array('user_id', 'total_price'))
+                    ->execute()->fetchAll();
+                $total_price = $query[0]->total_price;
+                $customer_id = $query[0]->user_id;
+                $user_storage = \Drupal::entityManager()->getStorage('user');
+                $customer = \Drupal\user\Entity\User::load($customer_id);
+                if (!isset($customer->field_payment_money->value)) {
+                    $customer->field_payment_money->value = $total_price;
+                } else {
+                    $customer->field_payment_money->value += $total_price;
+                }
+                $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
+                $user_storage->save($customer);
+                \Drupal::logger('purchase')->info('START INVOICE: finished');
+
                 // update status of products
                 $fields = array(
                     'status' => 2, // completed status

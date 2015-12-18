@@ -375,3 +375,7 @@ article.profile .form-item h4 {
         height: 100px;
     }
 }
+
+@media print {
+
+}

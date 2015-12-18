@@ -6,13 +6,14 @@ jQuery(function () {
 
     var base_path = jQuery('#base-path').attr('href');
 
+    initPrintDialog();
     initDatepicker('.views-exposed-form .form-item-date-from input');
     initDatepicker('.views-exposed-form .form-item-date-to input', true);
     initDatepicker('.views-exposed-form .form-item-date-from-statistic input');
     initDatepicker('.views-exposed-form .form-item-date-to-statistic input', true);
     onBuyNowButtonClick();
     onChangeButtonClick('.purchased-products-list');
-    onInvoiceDetailButtonClick('.invoices-list');
+    onInvoiceButtonClick('.invoices-list');
     //onViewAllLoad('.invoices-list');
     //onViewAllLoad('.purchased-products-list');
     //onViewAllClick('.invoices-list');
@@ -79,7 +80,7 @@ jQuery(function () {
         jQuery(view_selector).triggerHandler('RefreshView');
     }
 
-    function onInvoiceDetailButtonClick(view_selector) {
+    function onInvoiceButtonClick(view_selector) {
         jQuery(document).on('click', view_selector + ' table tbody tr td:last-child a', function () {
             var self = jQuery(this);
             var invoice_id = self.attr('rel-item');
@@ -89,6 +90,8 @@ jQuery(function () {
                 if (confirm(Drupal.t('Do you really want to change status?'))) {
                     startInvoice(invoice_id, view_selector);
                 }
+            } else if (classes.indexOf('print') >= 0) {
+                window.location.href = base_path + 'invoice/print/' + invoice_id;
             } else { // detail
                 window.location.href = base_path + 'invoice/detail/' + invoice_id;
             }
@@ -310,6 +313,13 @@ jQuery(function () {
                 });
             }
         });
+    }
+
+    function initPrintDialog() {
+        var href = window.location.href;
+        if (href.indexOf('print') > 0) {
+            window.print();
+        }
     }
 
     function initChosen() {

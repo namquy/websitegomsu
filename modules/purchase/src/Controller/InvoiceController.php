@@ -8,6 +8,7 @@
 
 namespace Drupal\purchase\Controller;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Controller\ControllerBase;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -82,6 +83,7 @@ class InvoiceController extends ControllerBase {
             // update status of invoice
             $fields = array(
                 'status' => 5,
+                'date' => time(),
             );
             $num_updated = db_update('invoice')
                 ->condition('id', $invoice_id)
@@ -104,6 +106,7 @@ class InvoiceController extends ControllerBase {
                     $customer->field_payment_money->value += $total_price;
                 }
                 $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
+                $customer->field_last_payment_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
                 $user_storage->save($customer);
                 \Drupal::logger('purchase')->info('START INVOICE: finished');
 

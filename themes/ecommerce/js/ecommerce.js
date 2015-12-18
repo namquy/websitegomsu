@@ -8,6 +8,8 @@ jQuery(function () {
 
     initDatepicker('.views-exposed-form .form-item-date-from input');
     initDatepicker('.views-exposed-form .form-item-date-to input', true);
+    initDatepicker('.views-exposed-form .form-item-date-from-statistic input');
+    initDatepicker('.views-exposed-form .form-item-date-to-statistic input', true);
     onBuyNowButtonClick();
     onChangeButtonClick('.purchased-products-list');
     onInvoiceDetailButtonClick('.invoices-list');
@@ -17,6 +19,7 @@ jQuery(function () {
     //onViewAllClick('.purchased-products-list');
     onUserCreateInvoiceButtonClick('.users-list');
     initCreateMultipleProductsView();
+    initChosen();
 
     function onBuyNowButtonClick() {
         jQuery('.button-buy-now').click(function () {
@@ -46,16 +49,20 @@ jQuery(function () {
             var self = jQuery(this);
             var relationship_id = self.attr('rel-item');
             var status_id = self.attr('rel-status');
+            var href = self.attr('href');
 
             if (!status_id) {
                 status_id = 3; // cancel
             }
 
-            if (confirm(Drupal.t('Do you really want to change status?'))) {
-                changeStatusPurchasingProduct(relationship_id, status_id, view_selector);
+            if (relationship_id && href == '#') {
+                if (confirm(Drupal.t('Do you really want to change status?'))) {
+                    changeStatusPurchasingProduct(relationship_id, status_id, view_selector);
+                }
+                return false;
+            } else {
+                return true;
             }
-
-            return false;
         });
     }
 
@@ -303,6 +310,10 @@ jQuery(function () {
                 });
             }
         });
+    }
+
+    function initChosen() {
+
     }
 
     function getFullElementHtml(element) {

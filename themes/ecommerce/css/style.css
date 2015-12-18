@@ -30,6 +30,7 @@ input[type="password"],
 input[type="tel"],
 input[type="email"] {
     height: 30px;
+    width: 250px;
 }
 ul.menu {
     margin: 0px;
@@ -68,6 +69,27 @@ form label {
 
 
 /* common */
+.form-autocomplete {
+    border: 1px solid #A9A9A9;
+}
+.ui-autocomplete .ui-menu-item {
+    height: 30px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.ui-autocomplete .ui-menu-item a {
+    margin: 0px 10px;
+    line-height: 30px;
+}
+.ui-autocomplete .ui-menu-item.ui-state-focus {
+    border: none;
+    margin: 0px;
+    background: none;
+    background-color: #EFEFEF;
+    font-style: italic;
+}
+.ui-autocomplete .ui-menu-item.ui-state-focus a {
+    color: orangered;
+}
 #block-ecommerce-branding {
     padding: 10px 0px;
 }
@@ -143,12 +165,16 @@ form label {
     margin-bottom: 10px;
     border-bottom: 1px solid #EFEFEF;
 }
+.view-header {
+    border-bottom: 1px solid #EFEFEF;
+    padding-bottom: 10px;
+}
 table .views-field {
     text-align: center;
 }
 .views-field-field-debt,
 .field--name-field-debt,
-.purchased-products-list .view-header .views-field.views-field-total-price {
+.views-field.views-field-total-price {
     color: orangered;
 }
 .views-field-field-debt .field-content {
@@ -186,6 +212,7 @@ ul.tabs > li.is-active a {
 }
 li.pager__item {
     padding: 0px;
+    line-height: 30px;
 }
 .pager__item a {
     padding: 5px 10px;
@@ -210,10 +237,8 @@ li.pager__item {
 .products-container table tr td input[type="text"] {
     width: 100%;
 }
-.user-block .view-content .views-field .views-label,
-.users-list .view-header .view-content .views-field .views-label,
-.purchased-products-list .view-header .view-content .views-field .views-label,
-article.profile .field .field__label,
+.view .views-label,
+article .field__label,
 article.profile .form-item h4 {
     width: 20%;
     display: inline-block;
@@ -306,17 +331,16 @@ article.profile .form-item h4 {
     .form-actions {
         margin: 5px auto;
     }
-    .user-block .view-content .views-field .views-label,
-    article.profile .field .field__label {
+    .view .views-label,
+    article .field__label {
         padding: 8px 0px;
     }
     .views-element-container,
     article.profile {
         padding: 5px;
     }
-    .user-block .view-content .views-field .views-label,
-    .purchased-products-list .view-header .view-content .views-field .views-label,
-    article.profile .field .field__label,
+    .view .views-label,
+    article .field__label,
     article.profile .form-item h4 {
         width: 20%;
     }
@@ -341,9 +365,8 @@ article.profile .form-item h4 {
     .site-branding .site-branding__text {
         font-size: 20px;
     }
-    .user-block .view-content .views-field .views-label,
-    .purchased-products-list .view-header .view-content .views-field .views-label,
-    article.profile .field .field__label,
+    .view .views-label,
+    article .field__label,
     article.profile .form-item h4 {
         width: 30%;
     }

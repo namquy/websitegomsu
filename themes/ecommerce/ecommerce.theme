@@ -144,3 +144,11 @@ function ecommerce_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
     $form[$key]['submit']['#attributes']->addClass('search-form__submit');
   }
 }
+
+function ecommerce_preprocess_form_element(&$variables) {
+
+}
+
+function ecommerce_preprocess_select(&$variables) {
+  dsm($variables);
+}

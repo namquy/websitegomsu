@@ -11,6 +11,7 @@ global-styling:
 corescript:
     version: VERSION
     js:
+        includes/chosen/chosen.jquery.min.js: {}
         js/ecommerce.js: {}
     dependencies:
       - core/matchmedia

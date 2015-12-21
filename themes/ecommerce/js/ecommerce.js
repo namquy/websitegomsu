@@ -11,6 +11,8 @@ jQuery(function () {
     initDatepicker('.views-exposed-form .form-item-date-to input', true);
     initDatepicker('.views-exposed-form .form-item-date-from-statistic input');
     initDatepicker('.views-exposed-form .form-item-date-to-statistic input', true);
+    initDatepicker('.views-exposed-form .form-item-payment-date-before input');
+    initDatepicker('.views-exposed-form .form-item-purchased-date-before input');
     onBuyNowButtonClick();
     onChangeButtonClick('.purchased-products-list');
     onInvoiceButtonClick('.invoices-list');

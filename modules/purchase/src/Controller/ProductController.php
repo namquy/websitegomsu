@@ -118,6 +118,7 @@ class ProductController extends ControllerBase {
                 $customer->field_total_money->value += $total_price;
             }
             $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
+            $customer->field_last_purchased_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
             $user_storage->save($customer);
         }
 

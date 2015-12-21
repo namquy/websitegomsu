@@ -64,7 +64,7 @@ function _update_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) 
         // assign to fields and save to db
         $user->field_payment_money->value = $payment_money;
         $user->field_debt->value = $debt;
-        $user->field_last_payment_date->value = REQUEST_TIME;
+        $user->field_last_payment_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
     }
     $user_storage->save($user);
 }
@@ -124,6 +124,7 @@ function _insert_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
         }
         */
         $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
+        $customer->field_last_purchased_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
         $user_storage->save($customer);
     }
 

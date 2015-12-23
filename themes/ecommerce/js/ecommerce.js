@@ -6,6 +6,7 @@ jQuery(function () {
 
     var base_path = jQuery('#base-path').attr('href');
 
+    initSlideshow();
     initPrintDialog();
     initDatepicker('.views-exposed-form .form-item-date-from input');
     initDatepicker('.views-exposed-form .form-item-date-to input', true);
@@ -23,6 +24,19 @@ jQuery(function () {
     onUserCreateInvoiceButtonClick('.users-list');
     initCreateMultipleProductsView();
     initChosen();
+
+    function initSlideshow() {
+        // process
+        jQuery(".slideshow .view-content").owlCarousel({
+            autoPlay: 3000,
+            items : 4,
+            itemsDesktop: [1199, 4],
+            itemsDesktopSmall: [979,3],
+            itemsTablet: [768,2],
+            itemsMobile: [479,1],
+            stopOnHover: true,
+        });
+    }
 
     function onBuyNowButtonClick() {
         jQuery('.button-buy-now').click(function () {

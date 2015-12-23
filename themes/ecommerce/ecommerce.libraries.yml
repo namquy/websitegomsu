@@ -6,12 +6,15 @@ global-styling:
     theme:
       css/colors.css: {}
       css/print.css: { media: print }
+      includes/owl-carousel/owl-carousel/owl.carousel.css: {}
+      includes/owl-carousel/owl-carousel/owl.theme.css: {}
       css/style.css: {}
 
 corescript:
     version: VERSION
     js:
         includes/chosen/chosen.jquery.min.js: {}
+        includes/owl-carousel/owl-carousel/owl.carousel.min.js: {}
         js/ecommerce.js: {}
     dependencies:
       - core/matchmedia

@@ -35,6 +35,7 @@ class PurchaseController extends ControllerBase {
                         $curUser->field_total_money->value += $total_price;
                     }
                     $curUser->field_debt->value = $curUser->field_total_money->value - $curUser->field_payment_money->value;
+                    $curUser->field_last_purchased_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
                     $user_storage->save($curUser);
 
                     // insert new row
@@ -44,20 +45,26 @@ class PurchaseController extends ControllerBase {
                         'quantity' => $quantity,
                         'price' => $price,
                         'total_price' => $total_price,
-                        'date' => time());
+                        'status' => 1, // purchased status
+                        'note' => "",
+                        'date' => REQUEST_TIME
+                    );
                     db_insert('product_user_relationship')->fields($fields)->execute();
 
                     // update quantity in db
                     $curQty -= $quantity;
                     $node->field_quantity->value = $curQty;
+                    /*
                     if ($curQty <= 0) {
                         $node->field_available->value = 0;
                     }
+                    */
                     $node_storage->save($node);
 
                     $response = array(
                         'success' => true,
-                        'message' => $this->t('Purchased successfully.')
+                        'message' => $this->t('Purchased successfully.'),
+                        'quantity' => $curQty,
                     );
                     //return new JsonResponse($response);
                 } else {

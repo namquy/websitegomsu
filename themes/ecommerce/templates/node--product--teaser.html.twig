@@ -95,11 +95,11 @@
     <input type="hidden" value="{{ product_id }}" class="product-id" />
     <input type="hidden" value="{{ price }}" class="price" />
     {% if quantity > 1 %}
-      <input type="input" value="1" class="quantity" />
+      <input type="text" value="1" class="quantity" />
     {% else %}
       <input type="hidden" value="1" class="quantity" />
     {% endif %}
-    {% if quantity %}
+    {% if quantity > 0 %}
       <input type="hidden" value="{{ quantity }}" class="max-quantity" />
       {% trans %}<input type="button" class="button-buy-now" value="Buy now" />{% endtrans %}
     {% endif %}

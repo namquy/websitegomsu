@@ -14,7 +14,7 @@ jQuery(function () {
     initDatepicker('.views-exposed-form .form-item-date-to-statistic input', true);
     initDatepicker('.views-exposed-form .form-item-payment-date-before input');
     initDatepicker('.views-exposed-form .form-item-purchased-date-before input');
-    onBuyNowButtonClick();
+    onBuyNowButtonClick('.button-buy-now', '.view-normal-products');
     onChangeButtonClick('.purchased-products-list');
     onInvoiceButtonClick('.invoices-list');
     //onViewAllLoad('.invoices-list');
@@ -38,8 +38,8 @@ jQuery(function () {
         });
     }
 
-    function onBuyNowButtonClick() {
-        jQuery('.button-buy-now').click(function () {
+    function onBuyNowButtonClick(button_selector, view_selector) {
+        jQuery(document).on('click', button_selector, function () {
             var self = jQuery(this);
             self.attr('disabled', true);
 
@@ -53,6 +53,12 @@ jQuery(function () {
             jQuery.post(url, function(data) {
                 if (data.success) {
                     alert(data.message);
+                    if (data.quantity > 0) {
+                        parent.find('.quantity').val(1);
+                        parent.find('.field--name-field-quantity .field__item').text(data.quantity);
+                    } else {
+                        jQuery(view_selector).triggerHandler('RefreshView');
+                    }
                 } else { // error
                     alert(data.message);
                 }

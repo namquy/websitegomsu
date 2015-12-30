@@ -9,6 +9,7 @@
 namespace Drupal\purchase\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,11 +61,9 @@ class PurchaseController extends ControllerBase {
                         // update quantity in db
                         $curQty -= $quantity;
                         $node->field_quantity->value = $curQty;
-                        /*
                         if ($curQty <= 0) {
-                            $node->field_available->value = 0;
+                            $node->status->value = 0;
                         }
-                        */
                         $node_storage->save($node);
 
                         $response = array(
@@ -258,4 +257,35 @@ class PurchaseController extends ControllerBase {
         return new JsonResponse($response);
     }
 
+    public function refreshOldProducts() {
+        $rows = db_select('node_field_data', 'e')
+            ->condition('status', 1)
+            ->condition('type', '%' . db_like('product'), 'LIKE')
+            ->fields('e', array('nid'))
+            ->execute()->fetchAll();
+
+        if (count($rows)> 0) {
+            $user_storage = \Drupal::entityManager()->getStorage('node');
+            foreach ($rows as $row) {
+                $nid = $row->nid;
+                $node = Node::load($nid);
+                if ($node->field_quantity->value > 0) {
+                    $node->changed->value = REQUEST_TIME;
+                    $user_storage->save($node);
+                }
+            }
+
+            $response = array(
+                'success' => true,
+                'message' => $this->t('Refresh products successfully.'),
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => $this->t('There is no old product.'),
+            );
+        }
+
+        return new JsonResponse($response);
+    }
 }

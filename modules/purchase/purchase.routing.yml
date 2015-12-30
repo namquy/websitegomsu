@@ -26,6 +26,13 @@ purchase.change_status:
     _title: 'Update status'
   requirements:
     _permission: 'access content'
+purchase.refresh_old_products:
+  path: '/refresh-old-products'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\PurchaseController::refreshOldProducts'
+    _title: 'Refresh Old Products'
+  requirements:
+    _permission: 'access content'
 
 purchase.create_invoice:
   path: '/invoice/create/{user_id}'

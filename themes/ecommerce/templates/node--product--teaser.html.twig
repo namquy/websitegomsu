@@ -92,16 +92,22 @@
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     {{ content }}
-    <input type="hidden" value="{{ product_id }}" class="product-id" />
-    <input type="hidden" value="{{ price }}" class="price" />
-    {% if quantity > 1 %}
-      <input type="text" value="1" class="quantity" />
-    {% else %}
-      <input type="hidden" value="1" class="quantity" />
-    {% endif %}
-    {% if quantity > 0 %}
-      <input type="hidden" value="{{ quantity }}" class="max-quantity" />
-      {% trans %}<input type="button" class="button-buy-now" value="Buy now" />{% endtrans %}
-    {% endif %}
+    <div class="buying-container">
+      <input type="hidden" value="{{ product_id }}" class="product-id" />
+      <input type="hidden" value="{{ price }}" class="price" />
+      {% if quantity > 1 %}
+        <div class="quantity-wrapper">
+          <input type="hidden" value="{{ quantity }}" class="max-quantity" />
+          <input type="text" value="1" class="quantity" />
+          <a href="#" class="quantity-add">Add</a>
+          <a href="#" class="quantity-sub">Sub</a>
+        </div>
+      {% else %}
+        <input type="hidden" value="1" class="quantity" />
+      {% endif %}
+      {% if quantity > 0 %}
+        {% trans %}<input type="button" class="button-buy-now" value="Buy now" />{% endtrans %}
+      {% endif %}
+    </div>
   </div>
 </article>

@@ -8,6 +8,7 @@ global-styling:
       css/print.css: { media: print }
       includes/owl-carousel/owl-carousel/owl.carousel.css: {}
       includes/owl-carousel/owl-carousel/owl.theme.css: {}
+      includes/font-awesome/css/font-awesome.css: {}
       css/style.css: {}
 
 corescript:

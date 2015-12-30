@@ -5,7 +5,7 @@ body {
     font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     background-color: #e9eaed;
     font-size: 14px;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: auto;
 }
 ul {
@@ -281,6 +281,69 @@ article.profile .form-item h4 {
     width:100%;
     display: block;
 }
+
+.view-normal-products .views-row {
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 15px;
+}
+.view-normal-products article h2 {
+    padding: 15px 0px;
+}
+.view-normal-products article img {
+    width: 100%;
+    height: auto;
+}
+.view-normal-products article .field {
+    padding: 10px 0px;
+}
+.view-normal-products article .field .field__label {
+    padding: 0px;
+}
+.buying-container {
+    padding: 10px 0px;
+    position: relative;
+}
+.quantity-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+}
+.buying-container .quantity {
+    width: 100px;
+    height: 38px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+}
+.buying-container .quantity-add,
+.buying-container .quantity-sub {
+    position: absolute;
+    right: 2px;
+    content: "";
+    font-size: 0px;
+}
+.buying-container .quantity-add {
+    top: 0px;
+}
+.buying-container .quantity-sub {
+    bottom: 0px;
+}
+.buying-container .quantity-add:before {
+    content: "\f0aa";
+    font-family: FontAwesome;
+    font-size: 20px;
+}
+.buying-container .quantity-sub:before {
+    content: "\f0ab";
+    font-family: FontAwesome;
+    font-size: 20px;
+}
+.buying-container a:hover {
+    color: orangered;
+}
+.buying-container .button-buy-now {
+    vertical-align: top;
+}
 /* end common */
 
 
@@ -362,6 +425,16 @@ article.profile .form-item h4 {
     .views-field-field-image-links img {
         width: 120px;
         height: 120px;
+    }
+    .buying-container .quantity {
+        height: 34px;
+        font-size: 18px;
+    }
+    .buying-container .quantity-add:before {
+        font-size: 18px;
+    }
+    .buying-container .quantity-sub:before {
+        font-size: 18px;
     }
 }
 

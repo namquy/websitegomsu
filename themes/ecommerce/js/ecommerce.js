@@ -15,6 +15,7 @@ jQuery(function () {
     initDatepicker('.views-exposed-form .form-item-payment-date-before input');
     initDatepicker('.views-exposed-form .form-item-purchased-date-before input');
     onBuyNowButtonClick('.button-buy-now', '.view-normal-products');
+    onQuantityButtonClick('.quantity-wrapper');
     onChangeButtonClick('.purchased-products-list');
     onInvoiceButtonClick('.invoices-list');
     //onViewAllLoad('.invoices-list');
@@ -43,7 +44,7 @@ jQuery(function () {
             var self = jQuery(this);
             self.attr('disabled', true);
 
-            var parent = self.parent();
+            var parent = self.parents('article');
             var product_id = parent.find('.product-id').val();
             var price = parent.find('.price').val();
             var quantity = parent.find('.quantity').val();
@@ -67,6 +68,32 @@ jQuery(function () {
                 }
                 self.attr('disabled', false);
             });
+        });
+    }
+
+    function onQuantityButtonClick(wrapper_selector) {
+        var wrapper = jQuery(wrapper_selector);
+        var quantity = wrapper.find('.quantity');
+        var max_quantity = parseInt(wrapper.find('.max-quantity').val());
+
+        jQuery(document).on('click', wrapper_selector + ' a', function () {
+            var self = jQuery(this);
+            var quantity_value = parseInt(quantity.val());
+
+            if (self.hasClass('quantity-add')) {
+                quantity_value += 1;
+                if (quantity_value > max_quantity) {
+                    quantity_value = max_quantity;
+                }
+            } else {
+                quantity_value -= 1;
+                if (quantity_value < 1) {
+                    quantity_value = 1;
+                }
+            }
+            quantity.val(quantity_value);
+
+            return false;
         });
     }
 

@@ -11,8 +11,6 @@ namespace Drupal\purchase\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Zend\Diactoros\Response\JsonResponse;
 
 class PurchaseController extends ControllerBase {

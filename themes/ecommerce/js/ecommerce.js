@@ -61,10 +61,42 @@ jQuery(function () {
                     }
                 } else { // error
                     alert(data.message);
+                    if (data.isAnonymous) {
+                        registryNewAccount();
+                    }
                 }
                 self.attr('disabled', false);
             });
         });
+    }
+
+    function registryNewAccount() {
+        var phone = prompt("Please enter your phone", "Account Registration");
+        var url;
+
+        if (phone != null) {
+            url = base_path + 'registry/' + phone;
+            jQuery.post(url, function (data) {
+                if (data.success) {
+                    alert(data.message);
+
+                    url = base_path + 'login/' + data.uid;
+                    jQuery.post(url, function (data) {
+                        if (!data.success) {
+                            alert('Login successfully.');
+                            location.reload();
+                        } else {
+                            alert('Login unsuccessfully.');
+                        }
+                    });
+                } else {
+                    alert(data.message);
+                    if (data.isExisted) {
+                        registryNewAccount();
+                    }
+                }
+            });
+        }
     }
 
     function onChangeButtonClick(view_selector) {

@@ -1,3 +1,6 @@
 administer create facebook products:
   title: 'Create Facebook products'
   restrict access: true
+purchase product on website:
+  title: 'Purchase product on Website'
+  restrict access: true

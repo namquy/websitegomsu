@@ -9,6 +9,9 @@
 namespace Drupal\purchase\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\user\Entity\User;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Zend\Diactoros\Response\JsonResponse;
 
 class PurchaseController extends ControllerBase {
@@ -17,66 +20,76 @@ class PurchaseController extends ControllerBase {
         $response = array();
 
         if (isset($product_id) && $product_id > 0 && isset($price) && $price > 0 && isset($quantity) && $quantity > 0) {
-            $userId = \Drupal::currentUser()->id();
-            $curUser = \Drupal\user\Entity\User::load($userId);
             $user_storage = \Drupal::entityManager()->getStorage('user');
             $node_storage = \Drupal::entityManager()->getStorage('node');
-            $node = $node_storage->load($product_id);
+            $tmpUser = \Drupal::currentUser();
 
-            if ($node != null && $curUser != null) {
-                $curQty = $node->field_quantity->value;
-                if ($quantity <= $curQty) {
-                    $total_price = $price * $quantity;
+            if ($tmpUser->isAuthenticated()) {
+                $userId = \Drupal::currentUser()->id();
+                $curUser = \Drupal\user\Entity\User::load($userId);
+                $node = $node_storage->load($product_id);
 
-                    // update user
-                    if (!isset($curUser->field_total_money->value)) {
-                        $curUser->field_total_money->value = $total_price;
+                if ($node != null && $curUser != null) {
+                    $curQty = $node->field_quantity->value;
+                    if ($quantity <= $curQty) {
+                        $total_price = $price * $quantity;
+
+                        // update user
+                        if (!isset($curUser->field_total_money->value)) {
+                            $curUser->field_total_money->value = $total_price;
+                        } else {
+                            $curUser->field_total_money->value += $total_price;
+                        }
+                        $curUser->field_debt->value = $curUser->field_total_money->value - $curUser->field_payment_money->value;
+                        $curUser->field_last_purchased_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
+                        $user_storage->save($curUser);
+
+                        // insert new row
+                        $fields = array(
+                            'product_id' => $product_id,
+                            'user_id' => $userId,
+                            'quantity' => $quantity,
+                            'price' => $price,
+                            'total_price' => $total_price,
+                            'status' => 1, // purchased status
+                            'note' => "",
+                            'date' => REQUEST_TIME
+                        );
+                        db_insert('product_user_relationship')->fields($fields)->execute();
+
+                        // update quantity in db
+                        $curQty -= $quantity;
+                        $node->field_quantity->value = $curQty;
+                        /*
+                        if ($curQty <= 0) {
+                            $node->field_available->value = 0;
+                        }
+                        */
+                        $node_storage->save($node);
+
+                        $response = array(
+                            'success' => true,
+                            'message' => $this->t('Purchased successfully.'),
+                            'quantity' => $curQty,
+                        );
+                        //return new JsonResponse($response);
                     } else {
-                        $curUser->field_total_money->value += $total_price;
+                        $response = array(
+                            'success' => false,
+                            'message' => $this->t('The purchased quantity must be less than current quantity of product.')
+                        );
                     }
-                    $curUser->field_debt->value = $curUser->field_total_money->value - $curUser->field_payment_money->value;
-                    $curUser->field_last_purchased_date->value = format_date(REQUEST_TIME, 'custom', 'Y-m-d\TH:i:s');
-                    $user_storage->save($curUser);
-
-                    // insert new row
-                    $fields = array(
-                        'product_id' => $product_id,
-                        'user_id' => $userId,
-                        'quantity' => $quantity,
-                        'price' => $price,
-                        'total_price' => $total_price,
-                        'status' => 1, // purchased status
-                        'note' => "",
-                        'date' => REQUEST_TIME
-                    );
-                    db_insert('product_user_relationship')->fields($fields)->execute();
-
-                    // update quantity in db
-                    $curQty -= $quantity;
-                    $node->field_quantity->value = $curQty;
-                    /*
-                    if ($curQty <= 0) {
-                        $node->field_available->value = 0;
-                    }
-                    */
-                    $node_storage->save($node);
-
-                    $response = array(
-                        'success' => true,
-                        'message' => $this->t('Purchased successfully.'),
-                        'quantity' => $curQty,
-                    );
-                    //return new JsonResponse($response);
                 } else {
                     $response = array(
                         'success' => false,
-                        'message' => $this->t('The purchased quantity must be less than current quantity of product.')
+                        'message' => $this->t('The purchased product id is invalid.')
                     );
                 }
-            } else {
+            } else { // anonymous
                 $response = array(
                     'success' => false,
-                    'message' => $this->t('The purchased product id is invalid.')
+                    'isAnonymous' => true,
+                    'message' => $this->t('You need to registry an account before buying!'),
                 );
             }
         } else {
@@ -87,6 +100,80 @@ class PurchaseController extends ControllerBase {
         }
 
         return new JsonResponse($response);
+    }
+
+    public function createNewAccount($username = NULL) {
+        $response = array();
+
+        if (isset($username) && strlen($username) > 3) {
+            $uids = db_select('users_field_data', 'e')
+                ->condition('name', $username)
+                ->fields('e', array('uid'))
+                ->execute()->fetchAll();
+
+            if (count($uids) == 0) {
+                $password = '123456';
+                $newUserId = $this->_createUser(array(
+                    'username' => $username,
+                    'password' => $password,
+                ));
+
+                $response = array(
+                    'success' => true,
+                    'uid' => $newUserId,
+                    'username' => $username,
+                    'password' => $password,
+                    'message' => $this->t('Registry successfully.'),
+                );
+            } else {
+                $response = array(
+                    'success' => false,
+                    'isExisted' => true,
+                    'message' => $this->t('Username has already existed, please choose other username.'),
+                );
+            }
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => $this->t('Username must be not empty and its length larger 3 characters.'),
+            );
+        }
+
+        return new JsonResponse($response);
+    }
+
+    public function loginWithAccount($user_id = NULl) {
+        if (isset($user_id)) {
+            $user = User::load($user_id);
+            user_login_finalize($user);
+
+            $response = array(
+                'success' => true,
+                'message' => $this->t('Login successfully.'),
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => $this->t('Login unsuccessfully.'),
+            );
+        }
+
+        return new JsonResponse($response);
+    }
+
+    private function _createUser($data) {
+        $user = User::create(array(
+            'langcode' => 'en',
+            'preferred_langcode' => \Drupal::languageManager()->getCurrentLanguage(),
+            'preferred_admin_langcode' => \Drupal::languageManager()->getCurrentLanguage(),
+            'name' => $data['username'],
+            'status' => 1,
+        ));
+        $user->enforceIsNew();
+        $user->setPassword($data['password']);
+        $user->save();
+
+        return $user->id();
     }
 
     public function updateStatus($relationship_id = NULL, $status_id = NULL) {

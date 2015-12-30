@@ -4,7 +4,21 @@ purchase.buy_now:
     _controller: '\Drupal\purchase\Controller\PurchaseController::buyNow'
     _title: 'Buy now'
   requirements:
-    _permission: 'access content'
+    _permission: 'purchase product on website'
+purchase.registry_new_account:
+  path: '/registry/{username}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\PurchaseController::createNewAccount'
+    _title: 'Registry new account'
+  requirements:
+    _permission: 'purchase product on website'
+purchase.login_new_account:
+  path: '/login/{user_id}'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\PurchaseController::loginWithAccount'
+    _title: 'Login new account'
+  requirements:
+    _permission: 'purchase product on website'
 purchase.change_status:
   path: '/change-status/{relationship_id}/{status_id}'
   defaults:

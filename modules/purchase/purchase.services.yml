@@ -1,0 +1,5 @@
+services:
+  example.user_routing:
+    class: Drupal\purchase\Routing\UserRouting
+    tags:
+      - { name: event_subscriber }

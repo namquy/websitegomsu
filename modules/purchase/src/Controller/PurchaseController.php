@@ -86,7 +86,7 @@ class PurchaseController extends ControllerBase {
                 $response = array(
                     'success' => false,
                     'isAnonymous' => true,
-                    'message' => $this->t('You need to registry an account before buying!'),
+                    'message' => $this->t('You need to register or login before buying!'),
                 );
             }
         } else {

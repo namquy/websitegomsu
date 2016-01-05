@@ -152,6 +152,8 @@ form label {
     background-color: #3a5795;
     color: white;
 }
+
+.block-user-login-block,
 #block-ecommerce-content .content > div,
 #block-ecommerce-content .content > article,
 #block-ecommerce-content .content > form,
@@ -160,6 +162,7 @@ form label {
     padding: 10px 20px;
     margin-bottom: 5px;
 }
+.block-user-login-block h2,
 .block.block-views h2 {
     padding-bottom: 10px;
     margin-bottom: 10px;
@@ -345,12 +348,6 @@ article.profile .form-item h4 {
     vertical-align: top;
 }
 /* end common */
-
-
-/* temp */
-.region-highlighted {
-    display: none;
-}
 
 
 /* Large desktops and laptops */

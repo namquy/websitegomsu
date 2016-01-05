@@ -16,6 +16,7 @@ jQuery(function () {
     initDatepicker('.views-exposed-form .form-item-purchased-date-before input');
     onBuyNowButtonClick('.button-buy-now', '.view-normal-products');
     onQuantityButtonClick('.quantity-wrapper');
+    onQuantityInputChange('.quantity-wrapper');
     onChangeButtonClick('.purchased-products-list');
     onInvoiceButtonClick('.invoices-list');
     //onViewAllLoad('.invoices-list');
@@ -61,9 +62,12 @@ jQuery(function () {
                         jQuery(view_selector).triggerHandler('RefreshView');
                     }
                 } else { // error
-                    alert(data.message);
                     if (data.isAnonymous) {
-                        registryNewAccount();
+                        alert(data.message);
+                        //registryNewAccount();
+                        jQuery('.buying-container .quantity-outer-wrapper').addClass('hidden');
+                        jQuery('.buying-container .not-login-message').removeClass('hidden');
+                    } else {
                     }
                 }
                 self.attr('disabled', false);
@@ -95,6 +99,57 @@ jQuery(function () {
 
             return false;
         });
+    }
+
+    function onQuantityInputChange(wrapper_selector) {
+        jQuery(document).on('keydown', wrapper_selector + ' .quantity', function (e) {
+            var self = jQuery(this);
+            var val = parseInt(self.val());
+            var max_quantity = parseInt(self.parent().find('.max-quantity').val());
+
+            onNumberInput(e);
+            if (val < 1) {
+                self.val(1);
+                e.preventDefault();
+            } else if (val > max_quantity) {
+                self.val(max_quantity);
+                e.preventDefault();
+            }
+        });
+        jQuery(document).on('keyup', wrapper_selector + ' .quantity', function (e) {
+            var self = jQuery(this);
+            var val = parseInt(self.val());
+            var max_quantity = parseInt(self.parent().find('.max-quantity').val());
+
+            //onNumberInput(e);
+            if (val < 1) {
+                self.val(1);
+                e.preventDefault();
+            } else if (val > max_quantity) {
+                self.val(max_quantity);
+                e.preventDefault();
+            }
+        });
+    }
+
+    function onNumberInput(e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: Ctrl+C
+            (e.keyCode == 67 && e.ctrlKey === true) ||
+                // Allow: Ctrl+X
+            (e.keyCode == 88 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) && (e.keyCode < 112 || e.keyCode > 123)) {
+            e.preventDefault();
+        }
     }
 
     function registryNewAccount() {

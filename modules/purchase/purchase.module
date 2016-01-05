@@ -14,11 +14,74 @@ function purchase_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_
 }
 
 function purchase_form_user_register_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-    //dsm($form);
     if (\Drupal::currentUser()->isAnonymous()) {
         $form['field_last_payment_money']['#attributes']['class'][] = 'hidden';
+
+        $form['account']['mail']['#type'] = 'hidden';
+        $form['account']['mail']['#required'] = FALSE;
+        $form['account']['name']['#type'] = 'hidden';
+        $form['account']['name']['#required'] = FALSE;
+        $form['account']['pass']['#type'] = 'hidden';
+        $form['account']['pass']['#required'] = FALSE;
+        $form['field_address']['#type'] = 'hidden';
+
+        $form['field_confirm'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Confirm question'),
+            '#description' => t('What is domain of this website? Suggest: "obaoma.vn"'),
+            '#maxlength' => 128,
+            '#weight' => 50,
+            '#required' => TRUE,
+        );
+        array_unshift($form['#validate'], '_pre_submit_user_register_form');
     }
+
     $form['actions']['submit']['#submit'][] = '_insert_user';
+    array_unshift($form['actions']['submit']['#submit'], '_pre_insert_user');
+}
+
+function _pre_submit_user_register_form(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $confirm_answer = $form_state->getValue('field_confirm');
+    $phone_number = $form_state->getValue('field_phone_number')[0]['value'];
+
+    if (strcmp($confirm_answer, 'obaoma.vn') != 0) {
+        $form_state->setErrorByName('field_confirm', t('The answer is not correct. Try again!'));
+    }
+    if (strlen($phone_number) < 9 || strlen($phone_number) > 15) {
+        $form_state->setErrorByName('field_phone_number', t('The phone number has to length between 9 and 15 numbers!'));
+    }
+
+    $query = db_select('users_field_data', 'e')
+        ->condition('name', $phone_number)
+        ->fields('e', array('name'))
+        ->execute()->fetchAll();
+    if (count($query) > 0) {
+        drupal_set_message('The phone number has existed. Please login or contact us to be helped.', 'error');
+        $form_state->setErrorByName('field_phone_number', t('The phone number has existed. Please login or contact us to be helped.'));
+    } else {
+        $query = db_select('user__field_phone_number', 'e')
+            ->condition('field_phone_number_value', $phone_number)
+            ->fields('e', array('field_phone_number_value'))
+            ->execute()->fetchAll();
+        if (count($query) > 0) {
+            drupal_set_message('The phone number has existed. Please login or contact us to be helped.', 'error');
+            $form_state->setErrorByName('field_phone_number', t('The phone number has existed. Please login or contact us to be helped.'));
+        }
+    }
+
+    $form_state->setValue('name', $phone_number);
+    $phone_number = preg_replace('/\s+/', '', $phone_number);
+    $form_state->setValue('init', $phone_number . '@obaoma.vn');
+    $form_state->setValue('mail', $phone_number . '@obaoma.vn');
+    $form_state->setValue('pass', '123456');
+}
+
+function _pre_insert_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    /*
+    $phone_number = $form_state->getValue('field_phone_number');
+    $form_state->setValue('name', $phone_number);
+    $form_state->setValue('pass', '123456');
+    */
 }
 
 function _insert_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
@@ -26,7 +89,9 @@ function _insert_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) 
     $user_storage = \Drupal::entityManager()->getStorage('user');
     $user = $user_storage->load($user_id);
     $user->langcode->value = 'en';
-    $user->field_email->value = $user->init->value;
+    //$user->field_email->value = $user->init->value;
+    $user->field_email->value = "";
+    $user->init->value = "";
     $user_storage->save($user);
 }
 

@@ -1,0 +1,10 @@
+<?php
+
+function profit_statistics_theme() {
+    return array(
+        'profit_statistics' => array(
+            'variables' => array(),
+            'template' => 'profit-statistics',
+        ),
+    );
+}

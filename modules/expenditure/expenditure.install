@@ -1,0 +1,41 @@
+<?php
+
+function expenditure_schema() {
+
+  $schema['expenditure'] = array(
+    'description' => 'All expenditures are stored here',
+    'fields' => array(
+      'eid' => array(
+        'description' => 'The primary key',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'The name of expenditure',
+        'type' => 'text',
+          'length' => 255,
+        'not null' => TRUE,
+      ),
+      'total_cost' => array(
+          'description' => 'The total cost of expenditure',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'default' => 0,
+      ),
+      'date' => array(
+          'description' => 'The date of creation the expenditure',
+          'type' => 'int',
+          'unsigned' => TRUE,
+      ),
+      'note' => array(
+          'description' => 'The note',
+          'type' => 'text',
+          'length' => 255,
+      ),
+    ),
+    'primary key' => array('eid'),
+  );
+
+  return $schema;
+}

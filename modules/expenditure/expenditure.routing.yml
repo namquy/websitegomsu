@@ -1,0 +1,14 @@
+expenditure.create_multiple_expenditures:
+  path: '/expenditure/create-multiple'
+  defaults:
+    _controller: '\Drupal\expenditure\Controller\ExpenditureController::createMultipleExpenditures'
+    _title: 'Create expenditures'
+  requirements:
+    _permission: 'administer create expenditures'
+expenditure.create_expenditures:
+  path: '/expenditure/create-expenditures'
+  defaults:
+    _controller: '\Drupal\expenditure\Controller\ExpenditureController::createExpenditures'
+    _title: 'Create expenditures'
+  requirements:
+    _permission: 'administer create expenditures'

@@ -1,0 +1,14 @@
+expenditure.view_profit_statistics:
+  path: '/statistics/profit'
+  defaults:
+    _controller: '\Drupal\profit_statistics\Controller\ProfitStatisticsController::viewProfitStatistics'
+    _title: 'View profit statistics'
+  requirements:
+    _permission: 'administer view profit statistics'
+expenditure.get_profit_statistics:
+  path: '/statistics/get-profit'
+  defaults:
+    _controller: '\Drupal\profit_statistics\Controller\ProfitStatisticsController::getProfitStatistics'
+    _title: 'Get profit statistics'
+  requirements:
+    _permission: 'administer view profit statistics'

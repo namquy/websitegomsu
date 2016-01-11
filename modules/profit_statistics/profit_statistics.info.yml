@@ -1,0 +1,10 @@
+name: Profit Statistics
+description: Profit Statistics for FiveStar company
+package: FiveStar Ecommerce
+type: module
+version: VERSION
+core: '8.x'
+
+dependencies:
+  - expenditure
+  - purchase

@@ -275,10 +275,37 @@ function purchase_block_access(\Drupal\block\Entity\Block $block, $operation, \D
     return \Drupal\Core\Access\AccessResult::neutral();
 }
 
+function purchase_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    //array_unshift($form['actions']['submit']['#submit'], '_pre_login_user');
+    array_unshift($form['#validate'], '_pre_login_user');
+}
+
+function _pre_login_user(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $phone_number = $form_state->getValue('name');
+
+    $query = db_select('user__field_phone_number', 'e')
+        ->condition('field_phone_number_value', $phone_number)
+        ->fields('e', array('entity_id'))
+        ->execute()->fetchAll();
+    if (count($query) > 0) {
+        $uid = $query[0]->entity_id;
+        $query = db_select('users_field_data', 'e')
+            ->condition('uid', $uid)
+            ->fields('e', array('name'))
+            ->execute()->fetchAll();
+
+        $username = $query[0]->name;
+        $form_state->setValue('name', $username);
+    } else {
+        // login without change username, do nothing
+    }
+}
+
 /**
  * Implements hook_user_login().
  */
 function purchase_user_login($account) {
+    /*
     global $base_path;
 
     $roles = $account->getRoles();
@@ -292,6 +319,7 @@ function purchase_user_login($account) {
         //$response = new \Symfony\Component\HttpFoundation\RedirectResponse($base_path . "user/login");
     }
     return;
+    */
 }
 
 function purchase_theme() {

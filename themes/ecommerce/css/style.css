@@ -14,6 +14,7 @@ ul {
 li {
     margin: 0px;
     padding: 0px !important;
+    list-style-type: none !important;
 }
 label {
     font-weight: bold;
@@ -64,11 +65,17 @@ th {
 form label {
     display: block;
 }
-
+img {
+    width: 100%;
+    height: auto;
+}
 
 
 
 /* common */
+.region-highlighted {
+    display: none;
+}
 .form-autocomplete {
     border: 1px solid #A9A9A9;
 }
@@ -131,16 +138,15 @@ form label {
     margin-top: 40px;
 }
 .region-primary-menu .menu {
-    padding: 15px 0px;
+    /*padding: 15px 0px;*/
     background-color: white;
-}
-.region-primary-menu .menu li {
-    margin: 0px;
-    padding: 0px;
 }
 .region-primary-menu .menu > li {
     display: inline-block;
     width: auto;
+    margin: 0px;
+    padding: 0px;
+    line-height: 44px;
 }
 .region-primary-menu .menu li a {
     padding: 15px 20px;
@@ -289,18 +295,74 @@ article.profile .form-item h4 {
     border-bottom: 1px solid #efefef;
     padding-bottom: 15px;
 }
-.view-normal-products article h2 {
+article.node--type-product h2 {
     padding: 15px 0px;
 }
-.view-normal-products article img {
-    width: 100%;
-    height: auto;
-}
-.view-normal-products article .field {
+article.node--type-product .field {
     padding: 10px 0px;
 }
-.view-normal-products article .field .field__label {
+article.node--type-product .field .field__label {
     padding: 0px;
+}
+article .field--name-field-images {
+    position: relative;
+    padding: 0px !important;
+}
+.flex-direction-nav {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    list-style: none;
+}
+.flex-direction-nav li {
+    display: inline-block;
+}
+.flex-direction-nav li a {
+    content: "";
+    font-size: 0px;
+}
+.flex-direction-nav li a:before {
+    font-family: FontAwesome;
+    font-size: 40px;
+    color: #3a5795;
+    background-color: rgba(58, 87, 149, 0.5);
+    padding: 20px 5px;
+}
+.flex-direction-nav .flex-nav-prev a:before {
+    position: absolute;
+    left: 0px;
+    content: "\f053";
+}
+.flex-direction-nav .flex-nav-next a:before {
+    position: absolute;
+    right: 0px;
+    content: "\f054";
+}
+.flex-control-nav {
+    list-style: none;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+.flex-control-nav li {
+    display: inline-block;
+    margin: 5px;
+}
+.flex-control-nav li a {
+    font-size: 0px;
+    border-radius: 50%;
+    padding: 8px 4px;
+    border: 1px solid #3a5795;
+}
+.flex-control-nav li a:before {
+    font-size: 0px;
+    content: "";
+    border-radius: 50%;
+    padding: 4px;
+    background-color: white;
+}
+.flex-control-nav li .flex-active:before {
+    background-color: #3a5795;
 }
 .buying-container {
     padding: 10px 0px;
@@ -347,16 +409,29 @@ article.profile .form-item h4 {
 .buying-container .button-buy-now {
     vertical-align: top;
 }
+.seperator {
+    height: 1px;
+    width: 100%;
+    background-color: #efefef;
+}
+.field--name-body p {
+    line-height: 2 !important;
+}
 /* end common */
 
 
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
+    .region-primary-menu .menu > li {
+        line-height: 47px;
+    }
 }
 
 /* Landscape tablets and medium desktops */
 @media (min-width: 992px) and (max-width: 1199px) {
-
+    .region-primary-menu .menu > li {
+        line-height: 47px;
+    }
 }
 
 /* Portrait tablets and small desktops */
@@ -364,6 +439,9 @@ article.profile .form-item h4 {
     .views-field-field-image-links img {
         width: 150px;
         height: 150px;
+    }
+    .region-primary-menu .menu > li {
+        line-height: 47px;
     }
 }
 
@@ -433,6 +511,19 @@ article.profile .form-item h4 {
     .buying-container .quantity-sub:before {
         font-size: 18px;
     }
+    .flex-direction-nav {
+        top: 35%;
+    }
+    .flex-direction-nav li a:before {
+        font-size: 35px;
+        padding: 15px 5px;
+    }
+    .flex-control-nav li a {
+        padding: 6px 3px;
+    }
+    .flex-control-nav li a:before {
+        padding: 3px;
+    }
 }
 
 /* Portrait phones and smaller */
@@ -448,6 +539,19 @@ article.profile .form-item h4 {
     .views-field-field-image-links img {
         width: 100px;
         height: 100px;
+    }
+    .flex-direction-nav {
+        top: 30%;
+    }
+    .flex-direction-nav li a:before {
+        font-size: 30px;
+        padding: 15px 5px;
+    }
+    .flex-control-nav li a {
+        padding: 6px 3px;
+    }
+    .flex-control-nav li a:before {
+        padding: 3px;
     }
 }
 

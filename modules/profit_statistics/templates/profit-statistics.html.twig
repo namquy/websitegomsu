@@ -1,0 +1,17 @@
+<div class="profit-statistics-container">
+    <div class="form">
+        <div class="date-from-container">
+            <label for="date-from-profit-statistics">{% trans %}Date from{% endtrans %}</label>
+            <input type="text" class="date-from" id="date-from-profit-statistics" />
+        </div>
+        <div class="date-to-container">
+            <label for="date-to-profit-statistics">{% trans %}Date to{% endtrans %}</label>
+            <input type="text" class="date-to" id="date-to-profit-statistics" />
+        </div>
+        <input type="button" class="btn-get-statistics" value="{% trans %}Get statistics{% endtrans %}" />
+    </div>
+    <div class="result">
+        <span class="label">{% trans %}Profit{% endtrans %}</span>
+        <span class="data"></span>
+    </div>
+</div>

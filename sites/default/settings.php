@@ -285,7 +285,7 @@ $config_directories = array();
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = 'pe874HGmvVos7mlOJ5KNCmhZsKpgAJEqOfWGARb51_Q_-NQMeJHtw0zRe_a1CNNe-WCnnnooLQ';
+$settings['hash_salt'] = 'l4j5pGOb4MoQB0RLk42G1yXas9VC1YEMDihQq58lp4E1M5VbHfVHPUYvZKWTR17bwZId6YAzKw';
 
 /**
  * Deployment identifier.
@@ -709,9 +709,9 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  *
  * Keep this code block at the end of this file to take full effect.
  */
-if (file_exists(__DIR__ . '/settings.local.php')) {
-  include __DIR__ . '/settings.local.php';
-}
+# if (file_exists(__DIR__ . '/settings.local.php')) {
+#   include __DIR__ . '/settings.local.php';
+# }
 $databases['default']['default'] = array (
   'database' => 'gomsu',
   'username' => 'root',
@@ -723,4 +723,4 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 $settings['install_profile'] = 'standard';
-$config_directories['sync'] = 'sites/default/files/config_D6kKj-NBIu2IGU8k4DX-tKuvbP0dt9yynKMbyKKS6HUP2MCKWa_a1eHmv1A1XWFQZE7AXV1KPQ/sync';
+$config_directories['sync'] = 'sites/default/files/config_PC4KlF0CVUG5p3WQyMt8QjcYviLbuTRXqHyb5a27H2_3Gf_lYe7HrfndQHnNvdz0SIGoCjP1QQ/sync';

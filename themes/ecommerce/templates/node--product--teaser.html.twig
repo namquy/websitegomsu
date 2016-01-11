@@ -107,15 +107,15 @@
           <input type="hidden" value="1" class="quantity" />
         {% endif %}
         {% if quantity > 0 %}
-          {% trans %}<input type="button" class="button-buy-now" value="Buy now" />{% endtrans %}
+          <input type="button" class="button-buy-now" value="{% trans %}Buy now{% endtrans %}" />
         {% endif %}
       </div>
       <div class="not-login-message hidden">
-        <a href="{{ base_path }}customer/register">
+        <a href="{{ base_path }}customer/register?destination={{ node_url }}">
           <input type="button" class="register" value="{% trans %}Register{% endtrans %}" />
         </a>
         {% trans %} or {% endtrans %}
-        <a href="{{ base_path }}customer/login">
+        <a href="{{ base_path }}customer/login?destination={{ node_url }}">
           <input type="button" class="login" value="{% trans %}Log in{% endtrans %}" />
         </a>
         {% trans %} to buy now{% endtrans %}

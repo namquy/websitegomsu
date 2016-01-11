@@ -1,0 +1,10 @@
+<?php
+
+function expenditure_theme() {
+    return array(
+        'create_multiple_expenditures' => array(
+            'variables' => array(),
+            'template' => 'create-multiple-expenditures',
+        ),
+    );
+}

@@ -89,7 +89,7 @@ function ecommerce_preprocess_node(&$variables) {
   global $base_path;
   $node = $variables['node'];
   $teaser = $variables['teaser'];
-  if ($node->getType() == 'product' && $teaser == true) {
+  if ($node->getType() == 'product') {
     $product_id = $node->id();
     $variables['product_id'] = $product_id;
     if (isset($variables['content']['field_price'][0])) {
@@ -101,6 +101,7 @@ function ecommerce_preprocess_node(&$variables) {
       $variables['quantity'] = $quantity;
     }
     $variables['base_path'] = $base_path;
+    $variables['node_url'] = 'node/' . $product_id;
   }
 }
 
@@ -143,6 +144,18 @@ function ecommerce_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form
       $form[$key]['submit']['#attributes'] = new Attribute();
     }
     $form[$key]['submit']['#attributes']->addClass('search-form__submit');
+  }
+}
+
+function ecommerce_preprocess_field(&$variables) {
+  $element = $variables['element'];
+  // Field type image
+  if ($element['#field_type'] == 'image') {
+    // Reduce number of images in teaser view mode to single image
+    if ($element['#view_mode'] == 'teaser') {
+      $item = reset($variables['items']);
+      $variables['items'] = array($item);
+    }
   }
 }
 

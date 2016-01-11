@@ -14,17 +14,21 @@ jQuery(function () {
     initDatepicker('.views-exposed-form .form-item-date-to-statistic input', true);
     initDatepicker('.views-exposed-form .form-item-payment-date-before input');
     initDatepicker('.views-exposed-form .form-item-purchased-date-before input');
+    initDatepicker('.profit-statistics-container .date-from-container input');
+    initDatepicker('.profit-statistics-container .date-to-container input');
     onBuyNowButtonClick('.button-buy-now', '.view-normal-products');
     onQuantityButtonClick('.quantity-wrapper');
     onQuantityInputChange('.quantity-wrapper');
     onChangeButtonClick('.purchased-products-list');
     onInvoiceButtonClick('.invoices-list');
+    onButtonViewProfitStatisticsClick('.btn-get-statistics');
     //onViewAllLoad('.invoices-list');
     //onViewAllLoad('.purchased-products-list');
     //onViewAllClick('.invoices-list');
     //onViewAllClick('.purchased-products-list');
     onUserCreateInvoiceButtonClick('.users-list');
     initCreateMultipleProductsView();
+    initCreateMultipleExpendituresView();
     initChosen();
 
     function initSlideshow() {
@@ -37,6 +41,10 @@ jQuery(function () {
             itemsTablet: [768,2],
             itemsMobile: [479,1],
             stopOnHover: true,
+        });
+
+        jQuery('.node--type-product.node--view-mode-full .field--name-field-images').flexslider({
+            animation: "slide"
         });
     }
 
@@ -414,9 +422,100 @@ jQuery(function () {
 
             if (canPost) {
                 if (confirm(Drupal.t('Do you really want to save?'))) {
+                    var btn = jQuery(this);
+                    btn.attr('disabled', true);
+
                     jQuery.post(url, JSON.stringify(data), function (data) {
+                        btn.attr('disabled', false);
                         alert(data.message);
                         window.location.href = base_path + 'products';
+                    }, 'json');
+                }
+            }
+        });
+    }
+
+    function initCreateMultipleExpendituresView() {
+        var container = jQuery('.expenditures-container');
+        var table_body = jQuery('.expenditures-container table tbody');
+        var origin_row = jQuery('.expenditures-container table tbody .origin-row');
+        var error_message = jQuery('.expenditures-container .error-message');
+        var error_element;
+
+        error_message.hide();
+
+        // add a row on init
+        table_body.append(origin_row.clone().css('display', '').removeClass('origin-row'));
+
+        // on add new row buton click
+        container.find('.btn-add-row').click(function () {
+            var cloned_row = origin_row.clone();
+            cloned_row.css('display', '');
+            cloned_row.removeClass('origin-row');
+            table_body.append(cloned_row);
+        });
+
+        // on remove row button click
+        jQuery(document).on('click', '.expenditures-container table tbody .btn-remove-row', function () {
+            var self = jQuery(this);
+            var row = self.parent().parent();
+            row.remove();
+        });
+
+        // on save button click
+        container.find('.btn-save').click(function () {
+            var data = [];
+            var url;
+            var canPost = true;
+
+            error_message.empty();
+            error_message.hide();
+            if (error_element) {
+                error_element.removeClass('invalid');
+            }
+
+            url = base_path + 'expenditure/create-expenditures';
+            table_body.children().each(function (i, e) {
+                if (i > 0) {
+                    var self = jQuery(this);
+                    var name = self.find('.name');
+                    var note = self.find('.note');
+                    var total_cost = self.find('.total-cost');
+
+                    if (name.val().length == 0) {
+                        error_message.text(Drupal.t('Name must be not empty.'));
+                        error_message.show();
+                        name.addClass('invalid');
+                        error_element = name;
+                        canPost = false;
+                        return false;
+                    } else if (total_cost.val() <= 0) {
+                        error_message.text(Drupal.t('Total cost must be positive.'));
+                        error_message.show();
+                        total_cost.addClass('invalid');
+                        error_element = total_cost;
+                        canPost = false;
+                        return false;
+                    }
+
+                    var tmpData = {
+                        'name' : name.val(),
+                        'note' : note.val(),
+                        'total_cost' : total_cost.val(),
+                    };
+                    data.push(tmpData);
+                }
+            });
+
+            if (canPost) {
+                if (confirm(Drupal.t('Do you really want to save?'))) {
+                    var btn = jQuery(this);
+                    btn.attr('disabled', true);
+
+                    jQuery.post(url, JSON.stringify(data), function (data) {
+                        btn.attr('disabled', false);
+                        alert(data.message);
+                        window.location.href = base_path;
                     }, 'json');
                 }
             }
@@ -448,6 +547,25 @@ jQuery(function () {
                     },
                 });
             }
+        });
+    }
+
+    function onButtonViewProfitStatisticsClick(selector) {
+        jQuery(document).on('click', selector, function () {
+            var self = jQuery(this);
+            var container = self.parents('.profit-statistics-container');
+            var date_from = container.find('.date-from').val();
+            var date_to = container.find('.date-to').val();
+            var result = container.find('.result .data');
+            var url = base_path + 'statistics/get-profit';
+            var data = {
+                'date_from' : date_from,
+                'date_to' : date_to,
+            };
+
+            jQuery.post(url, JSON.stringify(data), function (data) {
+                result.html(data.total_profit);
+            }, 'json');
         });
     }
 

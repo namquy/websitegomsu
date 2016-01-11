@@ -1,0 +1,3 @@
+administer view profit statistics:
+  title: 'View profit statistics'
+  restrict access: true

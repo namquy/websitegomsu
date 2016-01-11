@@ -15,6 +15,7 @@ corescript:
     version: VERSION
     js:
         includes/chosen/chosen.jquery.min.js: {}
+        includes/flexslider/jquery.flexslider-min.js: {}
         includes/owl-carousel/owl-carousel/owl.carousel.min.js: {}
         js/ecommerce.js: {}
     dependencies:

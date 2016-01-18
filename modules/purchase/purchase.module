@@ -226,11 +226,13 @@ function _update_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
 
     $query = db_select('product_user_relationship', 'e')
         ->condition('product_id', $product_id)
-        ->fields('e', array('status', 'total_price'))
+        ->fields('e', array('status', 'total_price', 'invoice_id', 'quantity'))
         ->execute()->fetchAll();
     $old_product = $query[0];
     $old_total_price = $old_product->total_price;
+    $old_quantity = $old_product->quantity;
     $old_status_id = $old_product->status;
+    $old_invoice_id = $old_product->invoice_id;
 
     // update user
     if ($old_status_id != 3) {
@@ -244,7 +246,33 @@ function _update_purchased_product(&$form, \Drupal\Core\Form\FormStateInterface 
     $customer->field_debt->value = $customer->field_total_money->value - $customer->field_payment_money->value;
     $user_storage->save($customer);
 
-    // insert new row
+    // update invoice
+    if (isset($old_invoice_id)) {
+        $query = db_select('invoice', 'e')
+            ->condition('id', $old_invoice_id)
+            ->fields('e', array('total_quantity', 'total_price'))
+            ->execute()->fetchAll();
+        if (count($query) > 0) {
+            $old_invoice = $query[0];
+            $invoice_total_price = $old_invoice->total_price;
+            $invoice_total_quantity = $old_invoice->total_quantity;
+
+            $invoice_total_price = $invoice_total_price - $old_total_price + $total_price;
+            $invoice_total_quantity = $invoice_total_quantity - $old_quantity + $quantity;
+
+            $fields = array(
+                'total_quantity' => $invoice_total_quantity,
+                'total_price' => $invoice_total_price,
+            );
+
+            db_update('invoice')
+                ->condition('id', $old_invoice_id)
+                ->fields($fields)
+                ->execute();
+        }
+    }
+
+    // update row
     $fields = array(
         'quantity' => $quantity,
         'price' => $price,

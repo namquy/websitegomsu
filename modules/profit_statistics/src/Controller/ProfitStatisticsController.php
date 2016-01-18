@@ -222,7 +222,7 @@ class ProfitStatisticsController extends ControllerBase {
             ->condition('date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=')
             ->condition('date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=')
             ->fields('e', array('total_cost'))
-            ->execute()->fetchAll(c);
+            ->execute()->fetchAll();
 
         $total_cost = 0;
         foreach ($query as $row) {

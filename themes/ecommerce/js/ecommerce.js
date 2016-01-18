@@ -618,12 +618,28 @@ jQuery(function () {
             'date_to' : date_to,
         };
 
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(data),
+            dataType: "json",
+            timeout: 100000, // in milliseconds
+            success: function(data) {
+                receipt.html(formatCurrency(data.total_receipt));
+                cost.html(formatCurrency(data.total_cost));
+                expenditure.html(formatCurrency(data.total_expenditure));
+                profit.html(formatCurrency(data.total_profit));
+            },
+        });
+
+        /*
         jQuery.post(url, JSON.stringify(data), function (data) {
             receipt.html(formatCurrency(data.total_receipt));
             cost.html(formatCurrency(data.total_cost));
             expenditure.html(formatCurrency(data.total_expenditure));
             profit.html(formatCurrency(data.total_profit));
         }, 'json');
+        */
     }
 
     function initPrintDialog() {
@@ -659,5 +675,18 @@ jQuery(function () {
 
     function getFullElementHtml(element) {
         return jQuery('<div>').append(element.clone()).html();
+    }
+
+
+    //test();
+    function test() {
+        jQuery('.create-multiple-products .image-link').val('https://www.facebook.com/gomsunhatgiare/photos/a.465336356980061.1073741825.465335773646786/465337096979987/?type=3&theater');
+        jQuery('.create-multiple-products .customer').val('1');
+        jQuery('.create-multiple-products .quantity').val('1');
+        jQuery('.create-multiple-products .price').val('10000');
+
+        for (var i = 0; i < 100; i++) {
+            jQuery('.create-multiple-products .btn-add-row').trigger('click');
+        }
     }
 });

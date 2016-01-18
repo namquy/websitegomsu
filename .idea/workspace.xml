@@ -27,22 +27,34 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="purchase.install" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/modules/purchase/purchase.install">
+          <file leaf-file-name="PurchaseController.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/PurchaseController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="124" column="34" selection-start-line="124" selection-start-column="34" selection-end-line="124" selection-end-column="34" />
+                <state vertical-scroll-proportion="-11.115385">
+                  <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="PurchaseController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/PurchaseController.php">
+          <file leaf-file-name="ProductController.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/ProductController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
+                <state vertical-scroll-proportion="-12.076923">
+                  <caret line="108" column="42" selection-start-line="108" selection-start-column="42" selection-end-line="108" selection-end-column="42" />
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="create-multiple-products.html.twig" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/modules/purchase/templates/create-multiple-products.html.twig">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.09550562">
+                  <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="47" />
+                  <folding>
+                    <element signature="n#style#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -50,7 +62,7 @@
           <file leaf-file-name="ExpenditureController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/modules/expenditure/src/Controller/ExpenditureController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
+                <state vertical-scroll-proportion="-12.423077">
                   <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
                   <folding>
                     <element signature="e#131#173#0#PHP" expanded="true" />
@@ -72,8 +84,8 @@
           <file leaf-file-name="ProfitStatisticsController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/modules/profit_statistics/src/Controller/ProfitStatisticsController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="90" column="43" selection-start-line="90" selection-start-column="43" selection-end-line="90" selection-end-column="43" />
+                <state vertical-scroll-proportion="-12.730769">
+                  <caret line="162" column="30" selection-start-line="162" selection-start-column="30" selection-end-line="162" selection-end-column="30" />
                   <folding>
                     <element signature="e#137#179#0#PHP" expanded="true" />
                   </folding>
@@ -85,7 +97,7 @@
             <entry file="file://$PROJECT_DIR$/modules/expenditure/expenditure.routing.yml">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="15" column="28" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="28" />
+                  <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
                   <folding />
                 </state>
               </provider>
@@ -101,20 +113,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EntityStorageInterface.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/core/lib/Drupal/Core/Entity/EntityStorageInterface.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="purchase.module" pinned="false" current-in-tab="true">
+          <file leaf-file-name="purchase.module" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/modules/purchase/purchase.module">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5411985">
+                <state vertical-scroll-proportion="-0.0">
                   <caret line="260" column="37" selection-start-line="260" selection-start-column="37" selection-end-line="260" selection-end-column="37" />
                   <folding />
                 </state>
@@ -208,8 +210,8 @@
           <file leaf-file-name="ecommerce.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/themes/ecommerce/js/ecommerce.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
+                <state vertical-scroll-proportion="0.45357144">
+                  <caret line="680" column="6" selection-start-line="680" selection-start-column="6" selection-end-line="680" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
@@ -219,7 +221,17 @@
             <entry file="file://$PROJECT_DIR$/modules/profit_statistics/profit_statistics.routing.yml">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
+                  <caret line="15" column="2" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="profit_statistics.permissions.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/modules/profit_statistics/profit_statistics.permissions.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
                   <folding />
                 </state>
               </provider>
@@ -258,7 +270,6 @@
         <option value="$PROJECT_DIR$/themes/ecommerce/templates/page-title.html.twig" />
         <option value="$PROJECT_DIR$/themes/ecommerce/templates/select.html.twig" />
         <option value="$PROJECT_DIR$/modules/purchase/purchase.permissions.yml" />
-        <option value="$PROJECT_DIR$/modules/purchase/src/Controller/ProductController.php" />
         <option value="$PROJECT_DIR$/modules/purchase/purchase.services.yml" />
         <option value="$PROJECT_DIR$/modules/purchase/src/Routing/UserRouting.php" />
         <option value="$PROJECT_DIR$/core/modules/user/src/Form/UserLoginForm.php" />
@@ -282,15 +293,16 @@
         <option value="$PROJECT_DIR$/modules/purchase/purchase.routing.yml" />
         <option value="$PROJECT_DIR$/modules/purchase/src/Controller/PurchaseController.php" />
         <option value="$PROJECT_DIR$/modules/profit_statistics/profit_statistics.routing.yml" />
-        <option value="$PROJECT_DIR$/modules/profit_statistics/src/Controller/ProfitStatisticsController.php" />
         <option value="$PROJECT_DIR$/modules/profit_statistics/templates/profit-statistics.html.twig" />
         <option value="$PROJECT_DIR$/themes/ecommerce/css/style.css" />
         <option value="$PROJECT_DIR$/modules/expenditure/expenditure.routing.yml" />
         <option value="$PROJECT_DIR$/modules/expenditure/expenditure.permissions.yml" />
         <option value="$PROJECT_DIR$/modules/expenditure/expenditure.install" />
         <option value="$PROJECT_DIR$/modules/expenditure/src/Controller/ExpenditureController.php" />
-        <option value="$PROJECT_DIR$/themes/ecommerce/js/ecommerce.js" />
         <option value="$PROJECT_DIR$/modules/purchase/purchase.module" />
+        <option value="$PROJECT_DIR$/modules/profit_statistics/src/Controller/ProfitStatisticsController.php" />
+        <option value="$PROJECT_DIR$/modules/purchase/src/Controller/ProductController.php" />
+        <option value="$PROJECT_DIR$/themes/ecommerce/js/ecommerce.js" />
       </list>
     </option>
   </component>
@@ -334,7 +346,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -502,6 +513,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gomsu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gomsu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="purchase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -644,6 +677,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -720,8 +754,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="702" extended-state="0" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1382" height="702" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19472913" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -790,13 +824,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="103" column="9" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/purchase/templates/create-multiple-products.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.65384614">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -933,13 +960,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/profit_statistics/profit_statistics.permissions.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/date.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1005,13 +1025,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/ProductController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="44" selection-start-line="88" selection-start-column="42" selection-end-line="88" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/lib/Drupal/Core/Entity/EntityStorageInterface.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1028,37 +1041,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/PurchaseController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/purchase/purchase.install">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="124" column="34" selection-start-line="124" selection-start-column="34" selection-end-line="124" selection-end-column="34" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/profit_statistics/profit_statistics.routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/profit_statistics/src/Controller/ProfitStatisticsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="43" selection-start-line="90" selection-start-column="43" selection-end-line="90" selection-end-column="43" />
-          <folding>
-            <element signature="e#137#179#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1110,16 +1097,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/expenditure/src/Controller/ExpenditureController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
-          <folding>
-            <element signature="e#131#173#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/purchase/purchase.routing.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1144,10 +1121,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/ecommerce/js/ecommerce.js">
+    <entry file="file://$PROJECT_DIR$/modules/purchase/purchase.module">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
+          <caret line="260" column="37" selection-start-line="260" selection-start-column="37" selection-end-line="260" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -1155,15 +1132,77 @@
     <entry file="file://$PROJECT_DIR$/modules/expenditure/expenditure.routing.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="28" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="28" />
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/purchase/purchase.module">
+    <entry file="file://$PROJECT_DIR$/modules/profit_statistics/profit_statistics.permissions.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5411985">
-          <caret line="260" column="37" selection-start-line="260" selection-start-column="37" selection-end-line="260" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/profit_statistics/profit_statistics.routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="2" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/profit_statistics/src/Controller/ProfitStatisticsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.730769">
+          <caret line="162" column="30" selection-start-line="162" selection-start-column="30" selection-end-line="162" selection-end-column="30" />
+          <folding>
+            <element signature="e#137#179#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/expenditure/src/Controller/ExpenditureController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.423077">
+          <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+          <folding>
+            <element signature="e#131#173#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/PurchaseController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.115385">
+          <caret line="25" column="46" selection-start-line="25" selection-start-column="46" selection-end-line="25" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/purchase/src/Controller/ProductController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.076923">
+          <caret line="108" column="42" selection-start-line="108" selection-start-column="42" selection-end-line="108" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/purchase/templates/create-multiple-products.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.09550562">
+          <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/ecommerce/js/ecommerce.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45357144">
+          <caret line="680" column="6" selection-start-line="680" selection-start-column="6" selection-end-line="680" selection-end-column="6" />
           <folding />
         </state>
       </provider>

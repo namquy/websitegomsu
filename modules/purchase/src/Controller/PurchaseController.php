@@ -15,10 +15,10 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class PurchaseController extends ControllerBase {
 
-    public function buyNow($product_id = NULL, $price = NULL, $quantity = NULL) {
+    public function buyNow($product_id = NULL, $quantity = NULL) {
         $response = array();
 
-        if (isset($product_id) && $product_id > 0 && isset($price) && $price > 0 && isset($quantity) && $quantity > 0) {
+        if (isset($product_id) && $product_id > 0 && isset($quantity) && $quantity > 0) {
             $user_storage = \Drupal::entityManager()->getStorage('user');
             $node_storage = \Drupal::entityManager()->getStorage('node');
             $tmpUser = \Drupal::currentUser();
@@ -29,6 +29,7 @@ class PurchaseController extends ControllerBase {
                 $node = $node_storage->load($product_id);
 
                 if ($node != null && $curUser != null) {
+                    $price = $node->field_price->value;
                     $curQty = $node->field_quantity->value;
                     if ($quantity <= $curQty) {
                         $total_price = $price * $quantity;

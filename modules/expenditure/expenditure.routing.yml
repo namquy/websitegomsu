@@ -12,3 +12,10 @@ expenditure.create_expenditures:
     _title: 'Create expenditures'
   requirements:
     _permission: 'administer create expenditures'
+expenditure.delete_expenditures:
+  path: '/expenditure/delete/{id}'
+  defaults:
+    _controller: '\Drupal\expenditure\Controller\ExpenditureController::delete'
+    _title: 'Delete Expenditure'
+  requirements:
+    _permission: 'administer delete expenditures'

@@ -1,5 +1,5 @@
 purchase.buy_now:
-  path: '/buy-now/{product_id}/{price}/{quantity}'
+  path: '/buy-now/{product_id}/{quantity}'
   defaults:
     _controller: '\Drupal\purchase\Controller\PurchaseController::buyNow'
     _title: 'Buy now'

@@ -8,3 +8,4 @@ function profit_statistics_theme() {
         ),
     );
 }
+

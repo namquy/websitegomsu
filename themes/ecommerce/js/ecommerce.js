@@ -16,12 +16,15 @@ jQuery(function () {
     initDatepicker('.views-exposed-form .form-item-purchased-date-before input');
     initDatepicker('.profit-statistics-container .date-from-container input');
     initDatepicker('.profit-statistics-container .date-to-container input');
+    initStatisticsView('.profit-statistics-container .result .user .data');
+    onGetStatistics('.btn-get-full-statistics', true);
     onBuyNowButtonClick('.button-buy-now', '.view-normal-products');
     onQuantityButtonClick('.quantity-wrapper');
     onQuantityInputChange('.quantity-wrapper');
     onChangeButtonClick('.purchased-products-list');
     onInvoiceButtonClick('.invoices-list');
     onButtonViewProfitStatisticsClick('.btn-get-statistics');
+    onButtonViewProfitStatisticsClick('.btn-get-full-statistics', true);
     //onViewAllLoad('.invoices-list');
     //onViewAllLoad('.purchased-products-list');
     //onViewAllClick('.invoices-list');
@@ -29,6 +32,7 @@ jQuery(function () {
     onUserCreateInvoiceButtonClick('.users-list');
     initCreateMultipleProductsView();
     initCreateMultipleExpendituresView();
+    onExpenditureDeleteButtonClick('.expenditures-list');
     initChosen();
 
     function initSlideshow() {
@@ -59,7 +63,7 @@ jQuery(function () {
             var quantity = parent.find('.quantity').val();
             var url;
 
-            url = base_path + 'buy-now/' + product_id + '/' + price + '/' + quantity;
+            url = base_path + 'buy-now/' + product_id + '/' + quantity;
             jQuery.post(url, function(data) {
                 if (data.success) {
                     alert(data.message);
@@ -522,6 +526,36 @@ jQuery(function () {
         });
     }
 
+    function onExpenditureDeleteButtonClick(view_selector) {
+        jQuery(document).on('click', view_selector + ' table tbody tr td:last-child a', function () {
+            var self = jQuery(this);
+            var expenditure_id = self.attr('exp-item');
+            var href = self.attr('href');
+
+            if (expenditure_id && href == '#') {
+                if (confirm(Drupal.t('Do you really want to delete expenditure?'))) {
+                    deleteExpenditure(expenditure_id, view_selector);
+                }
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
+    function deleteExpenditure(expenditure_id, view_selector) {
+        url = base_path + 'expenditure/delete/' + expenditure_id;
+        jQuery.post(url, function(data) {
+            if (data.success) {
+                alert(data.message);
+            } else { // error
+                alert(data.message);
+            }
+        });
+
+        jQuery(view_selector).triggerHandler('RefreshView');
+    }
+
     function initDatepicker(selector, isEndDay) {
         jQuery(document).on('focus', selector, function () {
             var self = jQuery(this);
@@ -550,23 +584,46 @@ jQuery(function () {
         });
     }
 
-    function onButtonViewProfitStatisticsClick(selector) {
-        jQuery(document).on('click', selector, function () {
-            var self = jQuery(this);
-            var container = self.parents('.profit-statistics-container');
-            var date_from = container.find('.date-from').val();
-            var date_to = container.find('.date-to').val();
-            var result = container.find('.result .data');
-            var url = base_path + 'statistics/get-profit';
-            var data = {
-                'date_from' : date_from,
-                'date_to' : date_to,
-            };
+    function initStatisticsView(selector) {
+        var user = jQuery(selector);
+        var url = base_path + 'statistics/get-total-users';
+        jQuery.post(url, function (data) {
+            user.html(data.total_users);
+        }, 'json');
+    }
 
-            jQuery.post(url, JSON.stringify(data), function (data) {
-                result.html(data.total_profit);
-            }, 'json');
+    function onButtonViewProfitStatisticsClick(selector, is_full) {
+        jQuery(document).on('click', selector, function () {
+            onGetStatistics(this, is_full);
         });
+    }
+
+    function onGetStatistics(selector, is_full) {
+        var self = jQuery(selector);
+        var container = self.parents('.profit-statistics-container');
+        var date_from = container.find('.date-from').val();
+        var date_to = container.find('.date-to').val();
+        var receipt = container.find('.result .receipt .data');
+        var cost = container.find('.result .cost .data');
+        var expenditure = container.find('.result .expenditure .data');
+        var profit = container.find('.result .profit .data');
+        var url;
+        if (is_full == true) {
+            url = base_path + 'statistics/get-profit-full';
+        } else {
+            url = base_path + 'statistics/get-profit';
+        }
+        var data = {
+            'date_from' : date_from,
+            'date_to' : date_to,
+        };
+
+        jQuery.post(url, JSON.stringify(data), function (data) {
+            receipt.html(formatCurrency(data.total_receipt));
+            cost.html(formatCurrency(data.total_cost));
+            expenditure.html(formatCurrency(data.total_expenditure));
+            profit.html(formatCurrency(data.total_profit));
+        }, 'json');
     }
 
     function initPrintDialog() {
@@ -574,6 +631,26 @@ jQuery(function () {
         if (href.indexOf('print') > 0) {
             window.print();
         }
+    }
+
+    function formatCurrency(value) {
+        var curStr = value.toString();
+        var result = "";
+        var length = curStr.length;
+        var i;
+        var c;
+        for (i = length-1; i >= 0; i--) {
+            c = curStr.charAt(i);
+            result += c;
+            if ((length - i) % 3 == 0 && i != 0) {
+                result += ",";
+            }
+        }
+        return reverse(result);
+    }
+
+    function reverse(s){
+        return s.split("").reverse().join("");
     }
 
     function initChosen() {

@@ -68,6 +68,7 @@ form label {
 img {
     width: 100%;
     height: auto;
+    border: 1px solid #E9EAED;
 }
 
 
@@ -416,6 +417,42 @@ article .field--name-field-images {
 }
 .field--name-body p {
     line-height: 2 !important;
+}
+.field--name-field-price .field__item {
+    color: orangered;
+    font-size: 25px;
+}
+.profit-statistics-container label,
+.profit-statistics-container input {
+    display: block;
+}
+.profit-statistics-container .date-from-container,
+.profit-statistics-container .date-to-container {
+    float: left;
+    margin: 5px;
+}
+.profit-statistics-container .btn-container {
+    clear: both;
+    display: block;
+}
+.profit-statistics-container .btn-container input {
+    display: inline-block;
+    margin: 5px;
+}
+.profit-statistics-container .result {
+    padding: 5px;
+}
+.profit-statistics-container .result > div {
+    margin: 15px 0px;
+}
+.profit-statistics-container .result .label {
+    width: 20%;
+    display: inline-block;
+}
+.profit-statistics-container .result .profit .data {
+    color: orangered;
+    font-size: 30px;
+    font-weight: bold;
 }
 /* end common */
 

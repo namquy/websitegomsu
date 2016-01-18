@@ -8,10 +8,31 @@
             <label for="date-to-profit-statistics">{% trans %}Date to{% endtrans %}</label>
             <input type="text" class="date-to" id="date-to-profit-statistics" />
         </div>
-        <input type="button" class="btn-get-statistics" value="{% trans %}Get statistics{% endtrans %}" />
+        <div class="btn-container">
+            <input type="button" class="btn-get-statistics" value="{% trans %}Get statistics{% endtrans %}" />
+            <input type="button" class="btn-get-full-statistics" value="{% trans %}Get full statistics{% endtrans %}" />
+        </div>
     </div>
     <div class="result">
-        <span class="label">{% trans %}Profit{% endtrans %}</span>
-        <span class="data"></span>
+        <div class="user">
+            <span class="label">{% trans %}Total users{% endtrans %}</span>
+            <span class="data">0</span>
+        </div>
+        <div class="receipt">
+            <span class="label">{% trans %}Receipt{% endtrans %}</span>
+            <span class="data">0</span>
+        </div>
+        <div class="cost">
+            <span class="label">{% trans %}Cost{% endtrans %}</span>
+            <span class="data">0</span>
+        </div>
+        <div class="expenditure">
+            <span class="label">{% trans %}Expenditure{% endtrans %}</span>
+            <span class="data">0</span>
+        </div>
+        <div class="profit">
+            <span class="label">{% trans %}Profit{% endtrans %}</span>
+            <span class="data">0</span>
+        </div>
     </div>
 </div>

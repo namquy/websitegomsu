@@ -1,3 +1,6 @@
 administer create expenditures:
   title: 'Create Expenditures'
   restrict access: true
+administer delete expenditures:
+  title: 'Delete Expenditures'
+  restrict access: true

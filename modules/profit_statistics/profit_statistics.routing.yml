@@ -12,3 +12,17 @@ expenditure.get_profit_statistics:
     _title: 'Get profit statistics'
   requirements:
     _permission: 'administer view profit statistics'
+expenditure.get_profit_statistics_full:
+  path: '/statistics/get-profit-full'
+  defaults:
+    _controller: '\Drupal\profit_statistics\Controller\ProfitStatisticsController::getProfitStatisticsFull'
+    _title: 'Get profit statistics'
+  requirements:
+    _permission: 'administer view profit statistics'
+expenditure.get_total_users:
+  path: '/statistics/get-total-users'
+  defaults:
+    _controller: '\Drupal\profit_statistics\Controller\ProfitStatisticsController::totalUsers'
+    _title: 'Get total users'
+  requirements:
+    _permission: 'administer view profit statistics'

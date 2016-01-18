@@ -62,4 +62,33 @@ class ExpenditureController extends ControllerBase {
         db_insert('expenditure')->fields($fields)->execute();
     }
 
+    function delete($id) {
+        $response = array();
+
+        if (isset($id) && $id > 0) {
+            $num_deleted = db_delete('expenditure')
+                ->condition('eid', $id)
+                ->execute();
+
+            if ($num_deleted > 0) {
+                $response = array(
+                    'success' => true,
+                    'message' => 'Delete successfully',
+                );
+            } else {
+                $response = array(
+                    'success' => false,
+                    'message' => 'Delete unsuccessfully',
+                );
+            }
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Delete unsuccessfully',
+            );
+        }
+
+        return new JsonResponse($response);
+    }
+
 }

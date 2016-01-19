@@ -100,6 +100,77 @@ class PurchaseController extends ControllerBase {
         return new JsonResponse($response);
     }
 
+    public function refreshTotalCustomerDebts() {
+        $response = array();
+
+        $user_storage = \Drupal::entityManager()->getStorage('user');
+        $query = db_select('users', 'e')
+            ->fields('e', array('uid'))
+            ->execute()->fetchAll();
+
+        if (count($query) > 0) {
+            foreach ($query as $row) {
+                $uid = $row->uid;
+                $debt = $this->_getTotalUserDebt($uid);
+                $payment = $this->_getTotalUserPayment($uid);
+
+                $user = $user_storage->load($uid);
+                $user->field_debt->value = $debt;
+                $user->field_payment_money->value = $payment;
+                $user->field_total_money->value = $user->field_debt->value + $user->field_payment_money->value;
+                $user_storage->save($user);
+            }
+
+            $response = array(
+                'success' => true,
+                'message' => 'Refresh successfully!',
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Refresh unsuccessfully!',
+            );
+        }
+
+        return new JsonResponse($response);
+    }
+
+    private function _getTotalUserPayment($uid) {
+        $query = db_select('product_user_relationship', 'e')
+            ->condition('user_id', $uid)
+            ->condition('status', 2)
+            ->fields('e', array('total_price'));
+        //$query->groupBy('e.status');
+        $query->groupBy('e.total_price');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query_result = $query->execute()->fetchAll();
+
+        $total_price = 0;
+        foreach ($query_result as $row) {
+            $total_price += $row->total_price_all;
+        }
+
+        return $total_price;
+    }
+
+    private function _getTotalUserDebt($uid) {
+        $query = db_select('product_user_relationship', 'e')
+            ->condition('user_id', $uid)
+            ->condition('status', 1)
+            ->fields('e', array('total_price'));
+        //$query->groupBy('e.status');
+        $query->groupBy('e.total_price');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query_result = $query->execute()->fetchAll();
+
+        $total_price = 0;
+        foreach ($query_result as $row) {
+            $total_price += $row->total_price_all;
+        }
+
+        return $total_price;
+    }
+
     public function createNewAccount($username = NULL) {
         $response = array();
 

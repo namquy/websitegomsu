@@ -117,18 +117,49 @@ class ProfitStatisticsController extends ControllerBase {
             $date_to_timestamp = NULL;
         }
 
-        $query = db_select('invoice', 'e')
-            ->condition('status', 5)
-            ->condition('date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=')
-            ->condition('date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=')
-            ->fields('e', array('total_price', 'id'))
-            ->execute()->fetchAll();
-
         $total_price = 0;
         $total_cost = 0;
-        foreach ($query as $row) {
-            $total_price += $row->total_price;
-            $total_cost += $this->_totalInvoiceCost($row->id);
+
+        // get total price
+        $query = db_select('product_user_relationship', 'e')
+            ->condition('date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=')
+            ->condition('date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=')
+            ->condition('status', 2)
+            ->fields('e', array('total_price'));
+        $query->groupBy('e.total_price');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query_total_price_result = $query->execute()->fetchAll();
+        foreach ($query_total_price_result as $row) {
+            $total_price += $row->total_price_all;
+        }
+
+        // get total cost of on-site products
+        $query = db_select('node__field_cost', 'c')
+            ->condition('bundle', 'product');
+        $query->join('product_user_relationship', 'e', 'c.entity_id = e.product_id');
+        $query->condition('e.date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=');
+        $query->condition('e.date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=');
+        $query->condition('e.status', 2);
+        $query->fields('c', array('field_cost_value'));
+        $query->fields('e', array('quantity'));
+        $query_total_cost_product = $query->execute()->fetchAll();
+        foreach  ($query_total_cost_product as $row) {
+            $total_cost += $row->field_cost_value * $row->quantity;
+        }
+
+        // get total cost of facebook products
+        $query = db_select('node', 'c')
+            ->condition('type', 'facebook_product');
+        $query->join('product_user_relationship', 'e', 'c.nid = e.product_id');
+        $query->condition('e.status', 2);
+        $query->condition('e.date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=');
+        $query->condition('e.date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=');
+        $query->fields('e', array('total_price'));
+        $query->groupBy('e.total_price');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query_total_cost_facebook_product = $query->execute()->fetchAll();
+        foreach  ($query_total_cost_facebook_product as $row) {
+            $total_cost += $row->total_price_all / 2;
         }
 
         return array(
@@ -137,7 +168,7 @@ class ProfitStatisticsController extends ControllerBase {
         );
     }
 
-    private function _totalIncomeFull($date_from, $date_to){
+    public function _totalIncomeFull(){
         if (!empty($date_from)) {
             $date_from_timestamp = strtotime($date_from);
         } else {
@@ -150,59 +181,55 @@ class ProfitStatisticsController extends ControllerBase {
             $date_to_timestamp = NULL;
         }
 
-        $query = db_select('product_user_relationship', 'e')
-            ->condition('status', 3, '<')
-            ->condition('date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=')
-            ->condition('date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=')
-            ->fields('e', array('total_price', 'price', 'product_id', 'quantity'))
-            ->execute()->fetchAll();
-
         $total_price = 0;
         $total_cost = 0;
-        foreach ($query as $row) {
-            $total_price += $row->total_price;
-            $total_cost += $this->_productCost($row->product_id, $row->quantity);
+
+        // get total price
+        $query = db_select('product_user_relationship', 'e')
+            ->condition('date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=')
+            ->condition('date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=')
+            ->condition('status', 3, '<')
+            ->fields('e', array('total_price'));
+        $query->groupBy('e.total_price');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query_total_price_result = $query->execute()->fetchAll();
+        foreach ($query_total_price_result as $row) {
+            $total_price += $row->total_price_all;
+        }
+
+        // get total cost of on-site products
+        $query = db_select('node__field_cost', 'c')
+            ->condition('bundle', 'product');
+        $query->join('product_user_relationship', 'e', 'c.entity_id = e.product_id');
+        $query->condition('e.date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=');
+        $query->condition('e.date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=');
+        $query->condition('e.status', 3, '<');
+        $query->fields('c', array('field_cost_value'));
+        $query->fields('e', array('quantity'));
+        $query_total_cost_product = $query->execute()->fetchAll();
+        foreach  ($query_total_cost_product as $row) {
+            $total_cost += $row->field_cost_value * $row->quantity;
+        }
+
+        // get total cost of facebook products
+        $query = db_select('node', 'c')
+            ->condition('type', 'facebook_product');
+        $query->join('product_user_relationship', 'e', 'c.nid = e.product_id');
+        $query->condition('e.status', 3, '<');
+        $query->condition('e.date', isset($date_from_timestamp) ? $date_from_timestamp : 0, '>=');
+        $query->condition('e.date', isset($date_to_timestamp) ? $date_to_timestamp : 9999999999, '<=');
+        $query->fields('e', array('total_price'));
+        $query->groupBy('e.total_price');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query_total_cost_facebook_product = $query->execute()->fetchAll();
+        foreach  ($query_total_cost_facebook_product as $row) {
+            $total_cost += $row->total_price_all / 2;
         }
 
         return array(
             'total_price' => $total_price,
             'total_cost' => $total_cost,
         );
-    }
-
-    private function _totalInvoiceCost($id) {
-        $total_cost = 0;
-
-        if (!empty($id)) {
-            $products = db_select('product_user_relationship', 'e')
-                ->condition('invoice_id', $id)
-                ->condition('status', 3, '<')
-                ->fields('e', array('product_id', 'quantity'))
-                ->execute()->fetchAll();
-            foreach ($products as $p) {
-                $total_cost += $this->_productCost($p->product_id, $p->quantity);
-            }
-        }
-
-        return $total_cost;
-    }
-
-    private function _productCost($nid, $quantity) {
-        $total_cost = 0;
-
-        if (!empty($nid)) {
-            $node_storage = \Drupal::entityManager()->getStorage('node');
-            $node = $node_storage->load($nid);
-            if (isset($node)) {
-                if ($node->getType() == 'product') {
-                    $total_cost = $node->field_cost->value * $quantity;
-                } else if ($node->getType() == 'facebook_product') {
-                    $total_cost = $node->field_price->value * $quantity / 2;
-                }
-            }
-        }
-
-        return $total_cost;
     }
 
     private function _totalExpenditure($date_from, $date_to){

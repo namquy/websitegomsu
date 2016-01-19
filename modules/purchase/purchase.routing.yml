@@ -85,7 +85,13 @@ purchase.user_general_page:
     _title: 'User general'
   requirements:
     _permission: 'access content'
-
+purchase.refresh_total_customer_debts:
+  path: '/users/refresh-all'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\PurchaseController::refreshTotalCustomerDebts'
+    _title: 'Users refresh'
+  requirements:
+    _permission: 'access content'
 
 
 purchase.fb_test:

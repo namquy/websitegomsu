@@ -92,6 +92,13 @@ purchase.refresh_total_customer_debts:
     _title: 'Users refresh'
   requirements:
     _permission: 'access content'
+purchase.refresh_total_invoice_prices:
+  path: '/invoices/refresh-all'
+  defaults:
+    _controller: '\Drupal\purchase\Controller\PurchaseController::refreshTotalInvoicePrices'
+    _title: 'Invoices refresh'
+  requirements:
+    _permission: 'access content'
 
 
 purchase.fb_test:

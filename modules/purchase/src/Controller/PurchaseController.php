@@ -135,6 +135,66 @@ class PurchaseController extends ControllerBase {
         return new JsonResponse($response);
     }
 
+    public function refreshTotalInvoicePrices() {
+        $response = array();
+
+        $query = db_select('invoice', 'e')
+            ->fields('e', array('id'))
+            ->execute()->fetchAll();
+
+        if (count($query) > 0) {
+            foreach ($query as $row) {
+                $invoice_id = $row->id;
+                $tmpArr = $this->_getTotalInvoicePrice($invoice_id);
+                $total_price = $tmpArr['total_price'];
+                $total_quantity = $tmpArr['total_quantity'];
+                db_update('invoice')
+                    ->condition('id', $invoice_id)
+                    ->fields(array(
+                        'total_price' => $total_price,
+                        'total_quantity' => $total_quantity,
+                    ))
+                    ->execute();
+            }
+
+            $response = array(
+                'success' => true,
+                'message' => 'Refresh successfully!',
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Refresh unsuccessfully!',
+            );
+        }
+
+        return new JsonResponse($response);
+    }
+
+    private function _getTotalInvoicePrice($invoice_id) {
+        $query = db_select('product_user_relationship', 'e')
+            ->condition('invoice_id', $invoice_id)
+            ->condition('status', 3, '<')
+            ->fields('e', array('total_price', 'quantity'));
+        $query->groupBy('e.total_price');
+        $query->groupBy('e.quantity');
+        $query->addExpression('SUM(total_price)', 'total_price_all');
+        $query->addExpression('SUM(quantity)', 'total_quantity_all');
+        $query_result = $query->execute()->fetchAll();
+
+        $total_price = 0;
+        $total_quantity = 0;
+        foreach ($query_result as $row) {
+            $total_price += $row->total_price_all;
+            $total_quantity += $row->total_quantity_all;
+        }
+
+        return array(
+            'total_price' => $total_price,
+            'total_quantity' => $total_quantity,
+        );
+    }
+
     private function _getTotalUserPayment($uid) {
         $query = db_select('product_user_relationship', 'e')
             ->condition('user_id', $uid)

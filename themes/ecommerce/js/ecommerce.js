@@ -655,10 +655,16 @@ jQuery(function () {
         var length = curStr.length;
         var i;
         var c;
+        var seperate = 0;
+        var seperate_index = -1;
         for (i = length-1; i >= 0; i--) {
             c = curStr.charAt(i);
             result += c;
-            if ((length - i) % 3 == 0 && i != 0) {
+            if (c == '.') {
+                seperate += 1;
+                seperate_index = i;
+            }
+            if ((length + seperate - i) % 3 == 0 && i != 0 && i != seperate_index) {
                 result += ",";
             }
         }
